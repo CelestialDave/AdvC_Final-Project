@@ -3,53 +3,35 @@
 #include "apartment.h"
 #include <stdbool.h>
 
-char* getCommand();
-void analizeParameters(int*, int*, int*, char**);
-char recognizeCommand(char*);
 int main() {
 	//get-an-apt -MinimumNumRooms 3 -MaximumNumRooms 10
 	char* command = NULL;
+	List apartments;
 	char recognize;
 	int price = -1;
 	int minRooms = -1;
 	int maxRooms = -1;
+	int sort = 0; // 1 for sr 2 for s 0 for nothing
+	int getSize; // the size of getList
+	Apartment** get; // list of get apartments
 	command = getCommand();
 	while (strcmp(command, "exit") != 0) {
 		recognize = recognizeCommand(command);
 		switch (recognize) {
 		case 'g':
-			analizeParameters(&price,&minRooms,&maxRooms,&command);
-			//invokeGet(price, minRooms, maxRooms);
+			analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
+			get = getAnApt(price, minRooms, maxRooms,sort, apartments, &getSize);
+			printAptsArr(get);//////
 			break;
 		case 'b':
 			break;
 		case 'd':
 			break;
-
+		case 'a':
+			break;
 		}
+		command = getCommand();
 	}
-}
-void analizeParameters(int* price, int* minRooms, int* maxRooms, char** command) {
-	char* copy;
-	char* subCommand;
-	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
-	char* digits = "-1234567890 ";
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	subCommand = strtok(*command, digits);
-	while (subCommand != NULL) {
-		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
-			*minRooms = atoi(subCommand = strtok(NULL, abc));
-		}
-		if (strcmp(subCommand, "MaximumNumRooms") == 0) {
-			*maxRooms = atoi(subCommand = strtok(NULL, abc));
-		}
-		if (strcmp(subCommand, "MaxmumPrice") == 0) {
-			*price = atoi(subCommand = strtok(NULL, abc));
-		}
-		subCommand = strtok(NULL, digits);
-	}
-	*command = copy;
 }
 char recognizeCommand(char* command) {
 
@@ -66,6 +48,10 @@ char recognizeCommand(char* command) {
 	if (strcmp(res, "delete") == 0) {
 		res[strlen(res)] = '-';
 		return 'd';
+	}
+	if (strcmp(res, "add") == 0) {
+		res[strlen(res)] = '-';
+		return 'a';
 	}
 }
 char* getCommand() {
