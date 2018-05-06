@@ -148,7 +148,6 @@
   <ItemGroup>
     <ClCompile Include="addAnApt.c" />
     <ClCompile Include="buyAnApt.c" />
-    <ClCompile Include="buyAnApt.cpp" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
