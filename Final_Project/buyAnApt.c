@@ -1,5 +1,4 @@
-#include "apartment.h"
-#include <stdio.h>
+#include "declerations.h"
 void buyAnApt(List lst, int code) {
 	Apartment* current;
 	Apartment* toDel;

@@ -1,6 +1,24 @@
-#include "apartment.h"
-#include <stdio.h>
-#include <stdbool.h>
+#include "declerations.h"
+void addAnApt(char** command,List list) {
+	static int code = 0;
+	char* copy;
+	char* adress;
+	int price;
+	short int rooms;
+	Date date;
+	copy = malloc(strlen(*command) * sizeof(char));
+	strcpy(copy, *command);
+	adress = strtok(*command, "\"");
+	adress = strtok(NULL, "\"");
+	price = atoi(strtok(NULL, " "));
+	rooms = atoi(strtok(NULL, " "));
+	date.day = atoi(strtok(NULL, " "));
+	date.month = atoi(strtok(NULL, " "));
+	date.year = atoi(strtok(NULL, " "));
+	insertDataToEndList(list, code, adress, rooms, price, date, NULL);
+	code++;
+	*command = copy;
+}
 List makeEmptyList() {
 	List res;
 	res.head = malloc(sizeof(Apartment));

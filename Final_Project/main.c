@@ -1,8 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include "apartment.h"
-#include <stdbool.h>
-
+#include "declerations.h"
 int main() {
 	//get-an-apt -MinimumNumRooms 3 -MaximumNumRooms 10
 	char* command = NULL;
@@ -15,19 +12,25 @@ int main() {
 	int getSize; // the size of getList
 	Apartment** get; // list of get apartments
 	command = getCommand();
+	apartments = makeEmptyList();
 	while (strcmp(command, "exit") != 0) {
 		recognize = recognizeCommand(command);
 		switch (recognize) {
 		case 'g':
 			analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
 			get = getAnApt(price, minRooms, maxRooms,sort, apartments, &getSize);
-			printAptsArr(get);//////
+			price = -1;
+			minRooms = -1;
+			maxRooms = -1;
+			sort = 0;
+			printAptsArr(get,getSize);
 			break;
 		case 'b':
 			break;
 		case 'd':
 			break;
 		case 'a':
+			addAnApt(&command,apartments);
 			break;
 		}
 		command = getCommand();

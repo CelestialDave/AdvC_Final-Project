@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include "apartment.h"
-#include <stdbool.h>
+#include "declerations.h"
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command,int* sort) {
 	char* copy;
 	char* subCommand;
@@ -51,12 +49,24 @@ Apartment** getAnApt(int price, int minRooms, int maxRooms,int sort, List apartm
 	}
 	*size = logSize;
 	if (sort == 1) {
-		sortLowToHigh(res, size); //////////
+		//sortLowToHigh(res, size); //////////
 	}
 	if (sort == 2) {
-		sortHighToLow(res, size); //////////
+		//sortHighToLow(res, size); //////////
 	}
 	return res;
+}
+void printAptsArr(Apartment** arr, int size) {
+	
+	for (int i = 0; i < size; i++) {
+		printf("Apt details:\n");
+		printf("Code: %d\n", arr[i]->code);
+		printf("Adress: %s\n", arr[i]->adress);
+		printf("Number of rooms: %d\n", arr[i]->rooms);
+		printf("Price: %d\n", arr[i]->price);
+		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, arr[i]->date.year);
+		//printf("Database entry date: ",arr[i]->);
+	}
 }
 bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt) {
 

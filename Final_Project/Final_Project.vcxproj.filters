@@ -32,5 +32,8 @@
     <ClInclude Include="apartment.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="declerations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
