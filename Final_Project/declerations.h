@@ -1,9 +1,9 @@
 #include "apartment.h"
 #include <stdio.h>
 #include <stdbool.h>
-void addAnApt(char** command, List list);
+void addAnApt(char** command, List* list);
 List makeEmptyList();
-void insertDataToEndList(List lst, int code, char* adress, short int rooms, int price, Date date, Apartment* next);
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date date, Apartment* next);
 Apartment* createApartment(int code, char* adress, short int rooms, int price, Date date, Apartment* next);
 bool isEmpty(List lst);
 void insertNodeToTail(List* lst, Apartment* node);

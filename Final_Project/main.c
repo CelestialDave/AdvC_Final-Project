@@ -1,7 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "declerations.h"
 int main() {
-	//get-an-apt -MinimumNumRooms 3 -MaximumNumRooms 10
+	/*add-an-apt "Dizengoff 180 Tel Aviv" 2000000 4 28 09 16
+add-an-apt "Rothschild 67 Rishon Le Zion" 1700000 3 03 10 16
+add-an-apt "Ben Gurion 25 Herzliya" 2200000 5 01 08 16
+add-an-apt "Gordon 85 Holon" 1500000 3 15 06 17
+get-an-apt –MinimumNumRooms 3 –MaximumNumRooms 5 –MaximumPrice 1750000*/
+
 	char* command = NULL;
 	List apartments;
 	char recognize;
@@ -18,19 +23,19 @@ int main() {
 		switch (recognize) {
 		case 'g':
 			analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
-			get = getAnApt(price, minRooms, maxRooms,sort, apartments, &getSize);
+			get = getAnApt(price, minRooms, maxRooms, sort, apartments, &getSize);
 			price = -1;
 			minRooms = -1;
 			maxRooms = -1;
 			sort = 0;
-			printAptsArr(get,getSize);
+			printAptsArr(get, getSize);
 			break;
 		case 'b':
 			break;
 		case 'd':
 			break;
 		case 'a':
-			addAnApt(&command,apartments);
+			addAnApt(&command, &apartments);
 			break;
 		}
 		command = getCommand();
@@ -74,7 +79,7 @@ char* getCommand() {
 	while (input != '\n') {
 		if (logSize == phSize) {
 			phSize *= 2;
-			realloc(command, phSize);
+			command = realloc(command, phSize * (sizeof(char)));
 		}
 		command[logSize++] = input;
 		scanf("%c", &input);

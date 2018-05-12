@@ -1,6 +1,6 @@
 #include "declerations.h"
-void addAnApt(char** command,List list) {
-	static int code = 0;
+void addAnApt(char** command,List* list) {
+	static int code = 1;
 	char* copy;
 	char* adress;
 	int price;
@@ -21,15 +21,15 @@ void addAnApt(char** command,List list) {
 }
 List makeEmptyList() {
 	List res;
-	res.head = malloc(sizeof(Apartment));
+	res.head = calloc(1, sizeof(Apartment));
 	res.head->next = NULL;
 	res.tail = NULL;
 	return res;
 }
-void insertDataToEndList(List lst, int code, char* adress, short int rooms, int price, Date date, Apartment* next) {
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date date, Apartment* next) {
 	Apartment* newApt;
 	newApt = createApartment(code, adress, rooms, price, date, next);
-	insertNodeToTail(&lst, newApt);
+	insertNodeToTail(lst, newApt);
 }
 Apartment* createApartment(int code, char* adress, short int rooms, int price, Date date, Apartment* next) {
 	Apartment* res;

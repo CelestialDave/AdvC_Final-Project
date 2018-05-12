@@ -41,7 +41,7 @@ Apartment** getAnApt(int price, int minRooms, int maxRooms,int sort, List apartm
 		if (conditionsAreMet(price, minRooms, maxRooms, current)) {
 			if (logSize == phSize) {
 				phSize *= 2;
-				realloc(res, phSize);
+				res = (Apartment **)realloc(res, phSize * sizeof(Apartment*));
 			}
 			res[logSize++] = current;
 		}
@@ -99,4 +99,5 @@ bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt) {
 	else if (maxRooms != -1) {
 		return apt->rooms <= maxRooms;
 	}
+	return false;
 }
