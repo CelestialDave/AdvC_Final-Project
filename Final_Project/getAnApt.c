@@ -1,33 +1,6 @@
 #include "declerations.h"
-void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command,int* sort) {
-	char* copy;
-	char* subCommand;
-	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
-	char* digits = "-1234567890 ";
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	subCommand = strtok(*command, digits);
-	while (subCommand != NULL) {
-		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
-			*minRooms = atoi(subCommand = strtok(NULL, abc));
-		}
-		if (strcmp(subCommand, "MaximumNumRooms") == 0) {
-			*maxRooms = atoi(subCommand = strtok(NULL, abc));
-		}
-		if (strcmp(subCommand, "MaximumPrice") == 0) {
-			*price = atoi(subCommand = strtok(NULL, abc));
-		}
-		if (strcmp(subCommand, "sr") == 0) {
-			*sort = 1;
-		}
-		if ((strcmp(subCommand, "s") == 0)) {
-			*sort = 2;
-		}
-		subCommand = strtok(NULL, digits);
-	}
-	*command = copy;
-}
-Apartment** getAnApt(int price, int minRooms, int maxRooms,int sort, List apartments, int* size) {
+
+void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List apartments) {
 
 	Apartment** res;
 	Apartment* current;
@@ -47,16 +20,30 @@ Apartment** getAnApt(int price, int minRooms, int maxRooms,int sort, List apartm
 		}
 		current = current->next;
 	}
-	*size = logSize;
-	if (sort == 1) {
-		//sortLowToHigh(res, size); //////////
+	if (sort != 0) {
+		////sort ///// from low to high
+		if (sort == 1) {
+			printAptsArrLowToHigh(res, logSize);
+		}
+		if (sort == 2) {
+			printAptsArrHighToLow(res, logSize);
+		}
 	}
-	if (sort == 2) {
-		//sortHighToLow(res, size); //////////
-	}
-	return res;
+	printAptsArrLowToHigh(res, logSize);
+	free(res);
 }
-void printAptsArr(Apartment** arr, int size) {
+void printAptsArrHighToLow(Apartment** arr, int size) {
+	for (int i = size - 1; i <= 0; i--) {
+		printf("Apt details:\n");
+		printf("Code: %d\n", arr[i]->code);
+		printf("Adress: %s\n", arr[i]->adress);
+		printf("Number of rooms: %d\n", arr[i]->rooms);
+		printf("Price: %d\n", arr[i]->price);
+		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, arr[i]->date.year);
+		//printf("Database entry date: ",arr[i]->);
+	}
+}
+void printAptsArrLowToHigh(Apartment** arr, int size) {
 	
 	for (int i = 0; i < size; i++) {
 		printf("Apt details:\n");

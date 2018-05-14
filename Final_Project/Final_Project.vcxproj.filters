@@ -27,12 +27,21 @@
     <ClCompile Include="getAnApt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="commander.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="archiveManager.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="apartment.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="declerations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="apartment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="history_structsAndConsts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

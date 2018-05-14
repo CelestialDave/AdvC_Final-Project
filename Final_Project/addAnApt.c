@@ -5,7 +5,7 @@ void addAnApt(char** command,List* list) {
 	char* adress;
 	int price;
 	short int rooms;
-	Date date;
+	EntryDate date;
 	copy = malloc(strlen(*command) * sizeof(char));
 	strcpy(copy, *command);
 	adress = strtok(*command, "\"");
@@ -26,12 +26,12 @@ List makeEmptyList() {
 	res.tail = NULL;
 	return res;
 }
-void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date date, Apartment* next) {
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next) {
 	Apartment* newApt;
 	newApt = createApartment(code, adress, rooms, price, date, next);
 	insertNodeToTail(lst, newApt);
 }
-Apartment* createApartment(int code, char* adress, short int rooms, int price, Date date, Apartment* next) {
+Apartment* createApartment(int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next) {
 	Apartment* res;
 	res = calloc(1, sizeof(Apartment));
 	res->adress = adress;
