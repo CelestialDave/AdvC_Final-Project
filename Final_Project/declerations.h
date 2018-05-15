@@ -3,10 +3,11 @@
 #include "history_structsAndConsts.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>;
 void addAnApt(char** command, List* list);
 List makeEmptyList();
-void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next);
-Apartment* createApartment(int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next);
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
+Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
 bool isEmpty(List lst);
 void insertNodeToTail(List* lst, Apartment* node);
 void buyAnApt(List lst, int code);
@@ -17,7 +18,11 @@ char recognizeCommand(char* command);
 char* getCommand();
 void printAptsArrLowToHigh(Apartment** arr, int size);
 void printAptsArrHighToLow(Apartment** arr, int size);
+void mergeSortApts(Apartment** arr, int size);
+void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apartment** res);
 
+void analizeParametersForDelete(int* hours, char** command);
+void deleteAnApt(List* list, int hours);
 
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);

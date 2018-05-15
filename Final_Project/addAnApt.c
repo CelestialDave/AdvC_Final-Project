@@ -1,11 +1,20 @@
 #include "declerations.h"
-void addAnApt(char** command,List* list) {
+void addAnApt(char** command, List* list) {
 	static int code = 1;
 	char* copy;
 	char* adress;
 	int price;
 	short int rooms;
-	EntryDate date;
+	Date date;
+	time_t currentTime;
+	struct tm* tm;
+	Date sDate;
+	time(&currentTime);
+	sDate.hours = currentTime / 3600;
+	tm = localtime(&currentTime);
+	sDate.day = tm->tm_mon + 1;
+	sDate.month = tm->tm_mday;
+	sDate.year = tm->tm_year + 1900;
 	copy = malloc(strlen(*command) * sizeof(char));
 	strcpy(copy, *command);
 	adress = strtok(*command, "\"");
@@ -15,7 +24,7 @@ void addAnApt(char** command,List* list) {
 	date.day = atoi(strtok(NULL, " "));
 	date.month = atoi(strtok(NULL, " "));
 	date.year = atoi(strtok(NULL, " "));
-	insertDataToEndList(list, code, adress, rooms, price, date, NULL);
+	insertDataToEndList(list, code, adress, rooms, price, sDate, date, NULL);
 	code++;
 	*command = copy;
 }
@@ -26,12 +35,12 @@ List makeEmptyList() {
 	res.tail = NULL;
 	return res;
 }
-void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next) {
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next) {
 	Apartment* newApt;
-	newApt = createApartment(code, adress, rooms, price, date, next);
+	newApt = createApartment(code, adress, rooms, price, sDate, date, next);
 	insertNodeToTail(lst, newApt);
 }
-Apartment* createApartment(int code, char* adress, short int rooms, int price, EntryDate date, Apartment* next) {
+Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next) {
 	Apartment* res;
 	res = calloc(1, sizeof(Apartment));
 	res->adress = adress;
@@ -40,6 +49,7 @@ Apartment* createApartment(int code, char* adress, short int rooms, int price, E
 	res->next = next;
 	res->price = price;
 	res->rooms = rooms;
+	res->dbDate = sDate;
 	return res;
 }
 void insertNodeToTail(List* lst, Apartment* node) {

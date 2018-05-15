@@ -33,6 +33,9 @@
     <ClCompile Include="archiveManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="deleteAnApt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declerations.h">

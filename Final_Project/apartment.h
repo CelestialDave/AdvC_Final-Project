@@ -4,14 +4,16 @@ typedef struct date {
 	short int day;
 	short int month;
 	short int year;
-}EntryDate;
+	int hours;
+}Date;
 
 typedef struct apartment {
 	int code;
 	char* adress;
 	short int rooms;
 	int price;
-	EntryDate date;
+	Date date;
+	Date dbDate;
 	struct apartment* next;
 }Apartment;
 typedef struct list {

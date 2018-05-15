@@ -1,12 +1,16 @@
 #include "declerations.h"
 void commander(History_Data* hData, char* command) {
-	List apartments;
-	int getSize;
-	int price = -1;
-	int minRooms = -1;
-	int maxRooms = -1;
-	int sort = 0; // 1 for sr 2 for s 0 for nothing
-	apartments = makeEmptyList();
+	static List apartments;
+	int hours; // parameter for delte-an-apt
+	int price = -1; // parameter for get-an-apt
+	int minRooms = -1; //parameter for get-an-apt
+	int maxRooms = -1;//parameter for get-an-apt
+	int sort = 0; // parameter for get-an-apt 1 for sr 2 for s 0 for nothing
+	static bool first = true;
+	if (first) {
+		apartments = makeEmptyList();
+		first = false;
+	}
 	char recognize;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
@@ -17,6 +21,8 @@ void commander(History_Data* hData, char* command) {
 	case 'b':
 		break;
 	case 'd':
+		analizeParametersForDelete(&hours, &command);
+		deleteAnApt(&apartments, hours);
 		break;
 	case 'a':
 		addAnApt(&command, &apartments);
@@ -33,6 +39,16 @@ void commander(History_Data* hData, char* command) {
 	default:
 		return -1;
 	}
+}
+void analizeParametersForDelete(int* hours, char** command) {
+	char* copy;
+	int res;
+	char* delimeters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>-";
+	copy = malloc(strlen(*command) * sizeof(char));
+	strcpy(copy, *command);
+	res = 24 * atoi(strtok(*command, delimeters));
+	*hours = res;
+	*command = copy;
 }
 char recognizeCommand(char* command) {
 
