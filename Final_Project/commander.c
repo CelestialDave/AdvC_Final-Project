@@ -104,19 +104,25 @@ char* getCommand() {
 	phSize = 5;
 	scanf("%c", &input);
 	if (input != '\n') {
-		command = malloc(phSize * sizeof(char));
+		command = (char *)malloc(phSize * sizeof(char));
 		command[logSize++] = input;
 		scanf("%c", &input);
 	}
 	while (input != '\n') {
 		if (logSize == phSize) {
 			phSize *= 2;
-			command = realloc(command, phSize * (sizeof(char)));
+			command = (char *)realloc(command, phSize * (sizeof(char)));
 		}
 		command[logSize++] = input;
 		scanf("%c", &input);
 	}
-	command[logSize] = '\0';
+	if (logSize == phSize) {
+		phSize++;
+		command = (char *)realloc(command, phSize * (sizeof(char)));
+	}
+	command[logSize++] = '\0';
+	if (logSize < phSize)
+		command = (char *)realloc(command, logSize * (sizeof(char)));
 	return command;
 }
 

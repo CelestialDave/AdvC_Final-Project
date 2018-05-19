@@ -1,7 +1,7 @@
 #include "declerations.h"
 void addAnApt(char** command, List* list) {
 	static int code = 1;
-	char* copy;
+	char* copy = NULL;
 	char* adress;
 	int price;
 	short int rooms;
@@ -15,9 +15,13 @@ void addAnApt(char** command, List* list) {
 	sDate.day = tm->tm_mon + 1;
 	sDate.month = tm->tm_mday;
 	sDate.year = tm->tm_year + 1900;
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	adress = strtok(*command, "\"");
+
+	// Dudi:
+	//copy = malloc(strlen(*command) * sizeof(char));
+	//strcpy(copy, *command);
+	copyString(&copy, *command);
+
+	adress = strtok(copy, "\"");
 	adress = strtok(NULL, "\"");
 	price = atoi(strtok(NULL, " "));
 	rooms = atoi(strtok(NULL, " "));
@@ -26,7 +30,9 @@ void addAnApt(char** command, List* list) {
 	date.year = atoi(strtok(NULL, " "));
 	insertDataToEndList(list, code, adress, rooms, price, sDate, date, NULL);
 	code++;
-	*command = copy;
+	// Dudi:
+	free(copy);
+	//*command = copy;
 }
 List makeEmptyList() {
 	List res;

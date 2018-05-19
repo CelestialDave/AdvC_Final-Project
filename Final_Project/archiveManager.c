@@ -76,7 +76,7 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 		strcat(newCommand, str2);
 		int i = (int)(p1 - command) + str2Size; // newCommand index
 		p1 = p1 + str1Size; // move pointer past str1 in 'command'
-							// complete string leftovers:
+		// complete string leftovers:
 		while (*p1) {
 			newCommand[i++] = *p1;
 			p1++;
@@ -133,27 +133,15 @@ void addToArchive(History_Data * hData, char * command) {
 				if (hData->shortTerm_HistoryArr[i] == NULL)
 					break;
 			}
-			//for (i = SHORT_TERM_SIZE - 1 -1; i >= 0; i--) {
-			//	if (hData->shortTerm_HistoryArr[i] != NULL)
-			//		break;
-			//}
-			//if (i < 0) i++;
 		}
 		iLastSTHEntry = (int)i;
 
 		if (isShortTermFull) {
-			// !!!! BUG !!!! when freeing memory
-			//printf("%s\n", hData->shortTerm_HistoryArr[iLastSTHEntry]);
-			//printf("%d\n", sizeof(hData->shortTerm_HistoryArr[iLastSTHEntry]));
-			//printf("%d", strlen(hData->shortTerm_HistoryArr[iLastSTHEntry]));
-			//free(tempCommand);
 			free(hData->shortTerm_HistoryArr[iLastSTHEntry]); // Free the memory for the command string in last ShortTerm History array cell
 			hData->shortTerm_HistoryArr[iLastSTHEntry] = NULL;
 		}
 		for (i = iLastSTHEntry; i > 0; i--) {
-			//copyString(&hData->shortTerm_HistoryArr[i], hData->shortTerm_HistoryArr[i - 1]);
 			hData->shortTerm_HistoryArr[i] = hData->shortTerm_HistoryArr[i - 1];
-			// Above requires testing!!!
 		}
 		// When i = 0:
 		hData->shortTerm_HistoryArr[i] = command;
@@ -176,7 +164,7 @@ void archivePrinter(History_Data * hData, int task) {
 		if ((task == FULL_HISTORY_PRINT) && (!isEmptyHistoryList(&hData->LongTerm_HistoryList))) {
 			p = hData->LongTerm_HistoryList.head->next;
 			while (p != NULL) {
-				printf("%d: %s", p->order, p->command);
+				printf("%d: %s\n", p->order, p->command);
 				p = p->next;
 			}
 		}
