@@ -27,5 +27,6 @@ typedef struct history_list {
 typedef struct history_data {
 	char* shortTerm_HistoryArr[SHORT_TERM_SIZE];
 	HistoryList LongTerm_HistoryList;
+	int total;
 }History_Data;
 #endif

@@ -1,9 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "apartment.h"
 #include "history_structsAndConsts.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <time.h>;
+#include <time.h>
+#include <string.h>
+
+void commander(History_Data* hData, char* command);
+
 void addAnApt(char** command, List* list);
 List makeEmptyList();
 void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
@@ -26,8 +31,10 @@ void deleteAnApt(List* list, int hours);
 
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);
+void historyDataPreLoaderPrep(History_Data * hData);
+void initShortTermArr(char * stArr[]);
 bool isEmptyHistoryList(HistoryList * hList);
-void insertToStartOfHistoryList(HistoryList * hList, char * command);
+void insertToEndOfHistoryList(History_Data * hData, char * command);
 void archiveQuery(History_Data * hData, char ** command);
 int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2);
 void copyString(char ** dest, char * source);

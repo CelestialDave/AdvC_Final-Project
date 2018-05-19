@@ -18,92 +18,24 @@ bool isEmptyHistoryList(HistoryList * hList) {
 	return (hList->head->next == NULL);
 }
 
-void insertToStartOfHistoryList(HistoryList * hList, char * command) {
-	HistoryEntry * newEntry = createHistoryEntry(SHORT_TERM_SIZE + 1, command, hList->head, hList->head->next);
-	HistoryEntry * p;
-	hList->head->next->prev = newEntry;
-	hList->head->next = newEntry;
-	p = newEntry->next;
-	// increment the order number for the rest of the History List entries:
-	while (p != NULL) {
-		p->order++;
-	}
+void historyDataPreLoaderPrep(History_Data * hData) {
+	initShortTermArr(hData->shortTerm_HistoryArr);
+	createEmptyHistoryList(&hData->LongTerm_HistoryList);
+	hData->total = 0;
 }
 
-//void archiveManagerAgent(char ** command) {
-void archiveQuery(History_Data * hData, char ** command) { // move to commander
-														   //FILE * shortTermArch;
-														   //FILE * longTermArch;
-	int commandNumber = -1;
-	char *str1, *str2;
-	str1 = str2 = NULL;
-	int task;
-
-	char * tempCommand;
-	copyString(&tempCommand, (*command + 1)); // send address following first char of '!'
-
-	task = clasifyQueryTaskParams(tempCommand, &commandNumber, &str1, &str2);
-
-	switch (task) {
-	case RUN_LAST:
-		executeFromHistory(hData, 1);
-		break;
-	case RUN_COMMAND_NUM:
-		executeFromHistory(hData, commandNumber);
-		break;
-	case SUBSTITUTE:
-		if ((str1 != NULL) && (str2 != NULL)) {
-			substituteAndRun(hData, commandNumber, str1, str2);
-			break;
-		}
-	default:
-		return;
-		break;
-	}
-
+void initShortTermArr(char * stArr[]) {
+	for (int i = 0; i < SHORT_TERM_SIZE; i++)
+		stArr[i] = NULL;
 }
 
-
-int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2) {
-	char *string1, *string2;
-	string1 = string2 = NULL;
-	if (command[0] == '!') {
-		return RUN_LAST;
-	}
-	else {
-		char * data = strtok(command, "^");
-		if (data == NULL) { // Received only a number past the '!' char - no string to substitute
-			sscanf(command, "%d", commandNumber);
-			if (*commandNumber >= 1)
-				return RUN_COMMAND_NUM;
-			else
-				return -1;
-		}
-		else {
-			string1 = (char *)calloc(strlen(data), sizeof(char));
-			copyString(&string1, data);
-			data = strtok(NULL, "^");
-			if (data != NULL) {
-				string2 = (char *)calloc(strlen(data), sizeof(char));
-				copyString(&string2, data);
-			}
-			*str1 = string1;
-			*str2 = string2;
-			return SUBSTITUTE;
-		}
-	}
+void insertToEndOfHistoryList(History_Data * hData, char * command) {
+	int order = hData->total - SHORT_TERM_SIZE;
+	HistoryEntry * newEntry = createHistoryEntry(order, command, hData->LongTerm_HistoryList.tail, NULL);
+	hData->LongTerm_HistoryList.tail->next = newEntry;
+	hData->LongTerm_HistoryList.tail = newEntry;
 }
 
-void copyString(char ** dest, char * source) {
-	*dest = (char *)calloc(strlen(source), sizeof(char));
-	char * pDest = *dest;
-	while (*source) {
-		*pDest = *source;
-		source++;
-		pDest++;
-	}
-	*pDest = '\0';
-}
 
 void executeFromHistory(History_Data * hData, int commandNumber) {
 	char * command = retrieveCommand(hData, commandNumber);
@@ -165,7 +97,8 @@ char * retrieveCommand(History_Data * hData, int commandNumber) {
 			HistoryEntry * entry = hData->LongTerm_HistoryList.head->next;
 			while (entry != NULL) {
 				if (entry->order == commandNumber) {
-					copyString(&commandCopy, entry->command);
+					if (entry->command != NULL)
+						copyString(&commandCopy, entry->command);
 					break;
 				}
 				else {
@@ -184,30 +117,78 @@ char * retrieveCommand(History_Data * hData, int commandNumber) {
 }
 
 void addToArchive(History_Data * hData, char * command) {
-	// Add logic for when short term arr is not full + replace copies with pointer swappimg
 	if (command != NULL) {
 		int i;
+		int iLastSTHEntry;
+		bool isShortTermFull = false;
 		char * tempCommand = NULL;
-		copyString(&tempCommand, hData->shortTerm_HistoryArr[SHORT_TERM_SIZE - 1]);
-		// Missing check for short-term array!!!!
-		insertToStartOfHistoryList(&hData->LongTerm_HistoryList, tempCommand);
-
-		for (i = SHORT_TERM_SIZE - 1; i > 0; i--) {
-			free(hData->shortTerm_HistoryArr[i]);
-			hData->shortTerm_HistoryArr[i] = NULL;
-			copyString(&hData->shortTerm_HistoryArr[i], hData->shortTerm_HistoryArr[i - 1]);
+		if (hData->shortTerm_HistoryArr[SHORT_TERM_SIZE - 1] != NULL) {
+			isShortTermFull = true;
+			i = SHORT_TERM_SIZE - 1;
+			copyString(&tempCommand, hData->shortTerm_HistoryArr[i]);
 		}
-		// i = 0;
+		else {
+			isShortTermFull = false;
+			for (i = 0; i <= SHORT_TERM_SIZE - 1; i++) {
+				if (hData->shortTerm_HistoryArr[i] == NULL)
+					break;
+			}
+			//for (i = SHORT_TERM_SIZE - 1 -1; i >= 0; i--) {
+			//	if (hData->shortTerm_HistoryArr[i] != NULL)
+			//		break;
+			//}
+			//if (i < 0) i++;
+		}
+		iLastSTHEntry = (int)i;
+
+		if (isShortTermFull) {
+			// !!!! BUG !!!! when freeing memory
+			//printf("%s\n", hData->shortTerm_HistoryArr[iLastSTHEntry]);
+			//printf("%d\n", sizeof(hData->shortTerm_HistoryArr[iLastSTHEntry]));
+			//printf("%d", strlen(hData->shortTerm_HistoryArr[iLastSTHEntry]));
+			//free(tempCommand);
+			free(hData->shortTerm_HistoryArr[iLastSTHEntry]); // Free the memory for the command string in last ShortTerm History array cell
+			hData->shortTerm_HistoryArr[iLastSTHEntry] = NULL;
+		}
+		for (i = iLastSTHEntry; i > 0; i--) {
+			//copyString(&hData->shortTerm_HistoryArr[i], hData->shortTerm_HistoryArr[i - 1]);
+			hData->shortTerm_HistoryArr[i] = hData->shortTerm_HistoryArr[i - 1];
+			// Above requires testing!!!
+		}
+		// When i = 0:
 		hData->shortTerm_HistoryArr[i] = command;
+		
+		// Increment total history entries counter:
+		if (iLastSTHEntry == 0) // if ShortTerm history was empty to begin with
+			hData->total = 1;
+		else
+			hData->total++;
+
+		if (isShortTermFull)
+			insertToEndOfHistoryList(hData, tempCommand);
 	}
 }
-// (!) INCOMPLETE:
+
 void archivePrinter(History_Data * hData, int task) {
-	if (task == SHORT_HISTORY_PRINT) {
-
-	}
-	else if (task == FULL_HISTORY_PRINT) {
-
+	int i;
+	HistoryEntry *p;
+	if ((task == SHORT_HISTORY_PRINT) || (task == FULL_HISTORY_PRINT)) {
+		if ((task == FULL_HISTORY_PRINT) && (!isEmptyHistoryList(&hData->LongTerm_HistoryList))) {
+			p = hData->LongTerm_HistoryList.head->next;
+			while (p != NULL) {
+				printf("%d: %s", p->order, p->command);
+				p = p->next;
+			}
+		}
+		for (i = SHORT_TERM_SIZE - 1; i >= 0; i--) {
+			if (hData->shortTerm_HistoryArr[i] != NULL) {
+				int order = hData->total - i;
+				if (hData->shortTerm_HistoryArr[i] != NULL)
+					printf("%d: %s\n", order, hData->shortTerm_HistoryArr[i]);
+				else
+					break;
+			}
+		}
 	}
 	else {
 		return;

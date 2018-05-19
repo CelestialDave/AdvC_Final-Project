@@ -1,4 +1,6 @@
 #include "declerations.h"
+
+
 void commander(History_Data* hData, char* command) {
 	static List apartments;
 	int hours; // parameter for delte-an-apt
@@ -11,35 +13,44 @@ void commander(History_Data* hData, char* command) {
 		apartments = makeEmptyList();
 		first = false;
 	}
+
 	char recognize;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
 	case 'g':
 		analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
 		getAnApt(price,minRooms,maxRooms,sort,command, apartments);
+		addToArchive(hData, command);
 		break;
 	case 'b':
+		// MISSING //
+		addToArchive(hData, command);
 		break;
 	case 'd':
 		analizeParametersForDelete(&hours, &command);
 		deleteAnApt(&apartments, hours);
+		addToArchive(hData, command);
 		break;
 	case 'a':
 		addAnApt(&command, &apartments);
+		addToArchive(hData, command);
 		break;
 	case 's':
-		archivePrinter(&hData, SHORT_HISTORY_PRINT);
+		archivePrinter(hData, SHORT_HISTORY_PRINT);
+		addToArchive(hData, command);
 		break;
 	case 'h':
-		archivePrinter(&hData, FULL_HISTORY_PRINT);
+		archivePrinter(hData, FULL_HISTORY_PRINT);
+		addToArchive(hData, command);
 		break;
 	case '!':
-		archiveQuery(&hData, &command);
+		archiveQuery(hData, &command);
 		break;
 	default:
-		return -1;
+		return;
 	}
 }
+
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy;
 	int res;
@@ -50,9 +61,18 @@ void analizeParametersForDelete(int* hours, char** command) {
 	*hours = res;
 	*command = copy;
 }
+
 char recognizeCommand(char* command) {
 
 	char* res;
+
+	if (command[0] == '!')
+		return '!';
+	if (strcmp(command, "short_history") == 0)
+		return 's';
+	if (strcmp(command, "history") == 0)
+		return 'h';
+
 	res = strtok(command, "-");
 	if (strcmp(res, "get") == 0) {
 		res[strlen(res)] = '-';
@@ -70,7 +90,10 @@ char recognizeCommand(char* command) {
 		res[strlen(res)] = '-';
 		return 'a';
 	}
+	else
+		return '0';
 }
+
 char* getCommand() {
 	char* command;
 	char input;
@@ -96,6 +119,7 @@ char* getCommand() {
 	command[logSize] = '\0';
 	return command;
 }
+
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
 	char* copy;
 	char* subCommand;
@@ -123,4 +147,85 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 		subCommand = strtok(NULL, digits);
 	}
 	*command = copy;
+}
+
+/////////////////////////////////
+// History related functions:
+////////////////////////////////
+
+void archiveQuery(History_Data * hData, char ** command) {
+														   //FILE * shortTermArch;
+														   //FILE * longTermArch;
+	int commandNumber = -1;
+	char *str1, *str2;
+	str1 = str2 = NULL;
+	int task;
+
+	char * tempCommand;
+	copyString(&tempCommand, (*command + 1)); // send address following first char of '!'
+
+	task = clasifyQueryTaskParams(tempCommand, &commandNumber, &str1, &str2);
+
+	switch (task) {
+	case RUN_LAST:
+		executeFromHistory(hData, 1);
+		break;
+	case RUN_COMMAND_NUM:
+		executeFromHistory(hData, commandNumber);
+		break;
+	case SUBSTITUTE:
+		if ((str1 != NULL) && (str2 != NULL)) {
+			substituteAndRun(hData, commandNumber, str1, str2);
+			break;
+		}
+	default:
+		return;
+		break;
+	}
+
+}
+
+int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2) {
+	char *string1, *string2;
+	string1 = string2 = NULL;
+	if (command[0] == '!') {
+		return RUN_LAST;
+	}
+	else {
+		char * data = strtok(command, "^");
+		if (data == NULL) { // Received only a number past the '!' char - no string to substitute
+			sscanf(command, "%d", commandNumber);
+			if (*commandNumber >= 1)
+				return RUN_COMMAND_NUM;
+			else
+				return -1;
+		}
+		else {
+			string1 = (char *)calloc(strlen(data), sizeof(char));
+			copyString(&string1, data);
+			data = strtok(NULL, "^");
+			if (data != NULL) {
+				string2 = (char *)calloc(strlen(data), sizeof(char));
+				copyString(&string2, data);
+			}
+			*str1 = string1;
+			*str2 = string2;
+			return SUBSTITUTE;
+		}
+	}
+}
+
+void copyString(char ** dest, char * source) {
+	//*dest = (char *)calloc(strlen(source) + 1, sizeof(char));
+	//char * pDest = *dest;
+	//while (*source) {
+	//	*pDest = *source;
+	//	source++;
+	//	pDest++;
+	//}
+	//*pDest = '\0';
+	
+	int size = (int)strlen(source);
+	*dest = (char *)calloc(size + 1, sizeof(char));
+	strcpy(*dest, source);
 }
