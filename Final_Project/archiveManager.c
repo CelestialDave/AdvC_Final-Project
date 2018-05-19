@@ -84,34 +84,35 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 		newCommand[i] = '\0';
 		free(command);
 	}
+	free(str1);
+	free(str2);
 	return newCommand;
 }
 
 char * retrieveCommand(History_Data * hData, int commandNumber) {
 	char * commandCopy = NULL;
-	if ((commandNumber >= 1) && (commandNumber <= SHORT_TERM_SIZE)) { // in short-term history
-		return (hData->shortTerm_HistoryArr[commandNumber - 1]);
-	}
-	else if (commandNumber > SHORT_TERM_SIZE) { // in long-term history list
-		if (!isEmptyHistoryList(&hData->LongTerm_HistoryList)) {
-			HistoryEntry * entry = hData->LongTerm_HistoryList.head->next;
-			while (entry != NULL) {
-				if (entry->order == commandNumber) {
-					if (entry->command != NULL)
-						copyString(&commandCopy, entry->command);
+
+	if (!isEmptyHistoryList) {
+		// commandNumber corelates with command in short-term:
+		if ((commandNumber > (hData->total - SHORT_TERM_SIZE)) && (commandNumber <= hData->total)) {
+			commandNumber = commandNumber - (hData->total - SHORT_TERM_SIZE);
+			copyString(&commandCopy, hData->shortTerm_HistoryArr[SHORT_TERM_SIZE - commandNumber]);
+		}
+		// commandNumber corelates with command in long-term:
+		else {
+			HistoryEntry * p;
+			p = hData->LongTerm_HistoryList.head->next;
+			while (p != NULL) {
+				if (commandNumber == p->order) {
+					copyString(&commandCopy, p->command);
 					break;
 				}
-				else {
-					entry = entry->next;
-				}
+				p = p->next;
 			}
-		}
-		else {
-			return NULL;
 		}
 	}
 	else {
-		return NULL;
+		copyString(&commandCopy, hData->shortTerm_HistoryArr[hData->total - commandNumber]);
 	}
 	return commandCopy;
 }

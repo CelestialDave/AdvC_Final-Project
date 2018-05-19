@@ -102,6 +102,7 @@ char* getCommand() {
 	command = NULL;
 	logSize = 0;
 	phSize = 5;
+	printf(">> ");
 	scanf("%c", &input);
 	if (input != '\n') {
 		command = (char *)malloc(phSize * sizeof(char));
@@ -160,8 +161,6 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 ////////////////////////////////
 
 void archiveQuery(History_Data * hData, char ** command) {
-														   //FILE * shortTermArch;
-														   //FILE * longTermArch;
 	int commandNumber = -1;
 	char *str1, *str2;
 	str1 = str2 = NULL;
@@ -171,10 +170,9 @@ void archiveQuery(History_Data * hData, char ** command) {
 	copyString(&tempCommand, (*command + 1)); // send address following first char of '!'
 
 	task = clasifyQueryTaskParams(tempCommand, &commandNumber, &str1, &str2);
-
 	switch (task) {
 	case RUN_LAST:
-		executeFromHistory(hData, 1);
+		executeFromHistory(hData, hData->total);
 		break;
 	case RUN_COMMAND_NUM:
 		executeFromHistory(hData, commandNumber);
@@ -192,45 +190,52 @@ void archiveQuery(History_Data * hData, char ** command) {
 }
 
 int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2) {
+	char *p;
 	char *string1, *string2;
+	bool subStrRequired = false;
 	string1 = string2 = NULL;
 	if (command[0] == '!') {
 		return RUN_LAST;
 	}
 	else {
-		char * data = strtok(command, "^");
-		if (data == NULL) { // Received only a number past the '!' char - no string to substitute
+		p = command;
+		while (*p) {
+			if (*p == '^') {
+				subStrRequired = true;
+				break;
+			}
+			p++;
+		}
+		
+		if (subStrRequired) {
+			char * data = strtok(command, "^");
+			*commandNumber = atoi(data);
+			data = strtok(NULL, "^");
+			if (data != NULL) {
+				string1 = (char *)calloc(strlen(data), sizeof(char));
+				copyString(&string1, data);
+
+				data = strtok(NULL, "^");
+				if (data != NULL) {
+					string2 = (char *)calloc(strlen(data), sizeof(char));
+					copyString(&string2, data);
+				}
+			}
+			*str1 = string1;
+			*str2 = string2;
+			return SUBSTITUTE;
+		}
+		else {
 			sscanf(command, "%d", commandNumber);
 			if (*commandNumber >= 1)
 				return RUN_COMMAND_NUM;
 			else
 				return -1;
 		}
-		else {
-			string1 = (char *)calloc(strlen(data), sizeof(char));
-			copyString(&string1, data);
-			data = strtok(NULL, "^");
-			if (data != NULL) {
-				string2 = (char *)calloc(strlen(data), sizeof(char));
-				copyString(&string2, data);
-			}
-			*str1 = string1;
-			*str2 = string2;
-			return SUBSTITUTE;
-		}
 	}
 }
 
 void copyString(char ** dest, char * source) {
-	//*dest = (char *)calloc(strlen(source) + 1, sizeof(char));
-	//char * pDest = *dest;
-	//while (*source) {
-	//	*pDest = *source;
-	//	source++;
-	//	pDest++;
-	//}
-	//*pDest = '\0';
-	
 	int size = (int)strlen(source);
 	*dest = (char *)calloc(size + 1, sizeof(char));
 	strcpy(*dest, source);
