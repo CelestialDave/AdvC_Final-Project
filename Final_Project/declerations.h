@@ -29,6 +29,9 @@ void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apart
 void analizeParametersForDelete(int* hours, char** command);
 void deleteAnApt(List* list, int hours);
 
+// History funcs:
+#define SHORT_HISTORY_PRINT 4
+#define FULL_HISTORY_PRINT 5
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);
 void historyDataPreLoaderPrep(History_Data * hData);
@@ -44,6 +47,7 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 char * retrieveCommand(History_Data * hData, int commandNumber);
 void addToArchive(History_Data * hData, char * command);
 void archivePrinter(History_Data * hData, int task);
-#define arc_print_params
-#define SHORT_HISTORY_PRINT 4
-#define FULL_HISTORY_PRINT 5
+void freeHistoryData(History_Data * hData);
+void freeShortTermHisArr(char ** shortTermArr);
+void freeHistoryList(HistoryList * hList);
+//#define arc_print_params

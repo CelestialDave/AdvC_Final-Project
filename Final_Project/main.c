@@ -21,4 +21,10 @@ get-an-apt –MinimumNumRooms 3 –MaximumNumRooms 5 –MaximumPrice 1750000 -s*/
 		commander(&hData, command);
 		command = getCommand();
 	}
+	
+	// Write data to files:
+
+	// Release Data:
+	freeHistoryData(&hData);
+
 }

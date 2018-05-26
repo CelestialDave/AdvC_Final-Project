@@ -92,7 +92,7 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 char * retrieveCommand(History_Data * hData, int commandNumber) {
 	char * commandCopy = NULL;
 
-	if (!isEmptyHistoryList) {
+	if (!isEmptyHistoryList(&hData->LongTerm_HistoryList)) {
 		// commandNumber corelates with command in short-term:
 		if ((commandNumber > (hData->total - SHORT_TERM_SIZE)) && (commandNumber <= hData->total)) {
 			commandNumber = commandNumber - (hData->total - SHORT_TERM_SIZE);
@@ -181,5 +181,31 @@ void archivePrinter(History_Data * hData, int task) {
 	}
 	else {
 		return;
+	}
+}
+
+void freeHistoryData(History_Data * hData) {
+	freeShortTermHisArr(hData->shortTerm_HistoryArr);
+	freeHistoryList(&hData->LongTerm_HistoryList);
+	return;
+}
+
+void freeShortTermHisArr(char ** shortTermArr) {
+	int i;
+	for (i = SHORT_TERM_SIZE - 1; i >= 0; i--) {
+		if (shortTermArr[i] != NULL)
+			free(shortTermArr[i]);
+	}
+}
+
+void freeHistoryList(HistoryList * hList) {
+	HistoryEntry * p = hList->tail;
+	HistoryEntry *  temp;
+	while (p != NULL) {
+		if (p->command != NULL)
+			free(p->command);
+		temp = p;
+		p = p->prev;
+		free(temp);
 	}
 }
