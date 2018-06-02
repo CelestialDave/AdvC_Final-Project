@@ -39,6 +39,9 @@
     <ClCompile Include="test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WriteDataToFiles.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declerations.h">

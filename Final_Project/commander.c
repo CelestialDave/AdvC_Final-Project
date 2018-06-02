@@ -1,56 +1,52 @@
 #include "declerations.h"
 
+void commander(History_Data* data, char* command) {
 
-void commander(History_Data* hData, char* command) {
-	static List apartments;
+	List apartments = data->apartments;
 	int hours; // parameter for delte-an-apt
 	int price = -1; // parameter for get-an-apt
 	int minRooms = -1; //parameter for get-an-apt
 	int maxRooms = -1;//parameter for get-an-apt
 	int sort = 0; // parameter for get-an-apt 1 for sr 2 for s 0 for nothing
-	static bool first = true;
-	if (first) {
-		apartments = makeEmptyList();
-		first = false;
-	}
-
 	char recognize;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
 	case 'g':
 		analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
 		getAnApt(price,minRooms,maxRooms,sort,command, apartments);
-		addToArchive(hData, command);
+		addToArchive(data, command);
 		break;
 	case 'b':
 		// MISSING //
-		addToArchive(hData, command);
+		addToArchive(data, command);
+		//data->apartments = apartments;
 		break;
 	case 'd':
 		analizeParametersForDelete(&hours, &command);
 		deleteAnApt(&apartments, hours);
-		addToArchive(hData, command);
+		data->apartments = apartments;
+		addToArchive(data, command);
 		break;
 	case 'a':
 		addAnApt(&command, &apartments);
-		addToArchive(hData, command);
+		data->apartments = apartments;
+		addToArchive(data, command);
 		break;
 	case 's':
-		archivePrinter(hData, SHORT_HISTORY_PRINT);
-		addToArchive(hData, command);
+		archivePrinter(data, SHORT_HISTORY_PRINT);
+		addToArchive(data, command);
 		break;
 	case 'h':
-		archivePrinter(hData, FULL_HISTORY_PRINT);
-		addToArchive(hData, command);
+		archivePrinter(data, FULL_HISTORY_PRINT);
+		addToArchive(data, command);
 		break;
 	case '!':
-		archiveQuery(hData, &command);
+		archiveQuery(data, &command);
 		break;
 	default:
 		return;
 	}
 }
-
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy;
 	int res;

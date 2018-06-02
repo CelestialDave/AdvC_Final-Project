@@ -19,6 +19,7 @@ bool isEmptyHistoryList(HistoryList * hList) {
 }
 
 void historyDataPreLoaderPrep(History_Data * hData) {
+	hData->apartments = makeEmptyList();
 	initShortTermArr(hData->shortTerm_HistoryArr);
 	createEmptyHistoryList(&hData->LongTerm_HistoryList);
 	hData->total = 0;

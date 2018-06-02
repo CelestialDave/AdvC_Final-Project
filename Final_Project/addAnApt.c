@@ -2,13 +2,14 @@
 void addAnApt(char** command, List* list) {
 	static int code = 1;
 	char* copy = NULL;
-	char* adress;
+	char* address = NULL;
+	char* temp;
 	int price;
 	short int rooms;
 	Date date;
 	time_t currentTime;
 	struct tm* tm;
-	Date sDate;
+	Date sDate; // time_t mktime(struct tm* tm) - to read from binary file - send tm pointer struct with date values 
 	time(&currentTime);
 	sDate.hours = currentTime / 3600;
 	tm = localtime(&currentTime);
@@ -20,15 +21,15 @@ void addAnApt(char** command, List* list) {
 	//copy = malloc(strlen(*command) * sizeof(char));
 	//strcpy(copy, *command);
 	copyString(&copy, *command);
-
-	adress = strtok(copy, "\"");
-	adress = strtok(NULL, "\"");
+	temp = strtok(copy, "\"");
+	temp = strtok(NULL, "\"");
+	copyString(&address, temp);
 	price = atoi(strtok(NULL, " "));
 	rooms = atoi(strtok(NULL, " "));
 	date.day = atoi(strtok(NULL, " "));
 	date.month = atoi(strtok(NULL, " "));
 	date.year = atoi(strtok(NULL, " "));
-	insertDataToEndList(list, code, adress, rooms, price, sDate, date, NULL);
+	insertDataToEndList(list, code, address, rooms, price, sDate, date, NULL);
 	code++;
 	// Dudi:
 	free(copy);

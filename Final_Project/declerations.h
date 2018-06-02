@@ -7,8 +7,8 @@
 #include <time.h>
 #include <string.h>
 
+typedef unsigned char byte;
 void commander(History_Data* hData, char* command);
-
 void addAnApt(char** command, List* list);
 List makeEmptyList();
 void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
@@ -50,4 +50,11 @@ void archivePrinter(History_Data * hData, int task);
 void freeHistoryData(History_Data * hData);
 void freeShortTermHisArr(char ** shortTermArr);
 void freeHistoryList(HistoryList * hList);
+
+// write
+void writeDataToFiles(List apartments);
+void writeApartments(List apartments);
+void writeCompressedData(Apartment* apt, FILE* file);
+
+
 //#define arc_print_params

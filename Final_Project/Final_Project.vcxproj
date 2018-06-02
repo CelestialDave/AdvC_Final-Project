@@ -154,6 +154,7 @@
     <ClCompile Include="getAnApt.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="test_main.c" />
+    <ClCompile Include="WriteDataToFiles.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apartment.h" />
