@@ -9,8 +9,9 @@
 #define RUN_COMMAND_NUM 2
 #define SUBSTITUTE 3
 
-#define FILE_HISTORY_SHORT_TERM "shortTermArchive.out"
-#define FILE_HISTORY_LONG_TERM "longTermArchive.out"
+#define FILE_HISTORY_SHORT_TERM "shortTermArchive.txt"
+#define FILE_HISTORY_LONG_TERM "longTermArchive.txt"
+#define FILE_HISTORY "history.txt"
 
 typedef struct history_entry {
 	int order;

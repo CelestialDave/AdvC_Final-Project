@@ -153,11 +153,13 @@
     <ClCompile Include="deleteAnApt.c" />
     <ClCompile Include="getAnApt.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="ReadDataFromFiles.c" />
     <ClCompile Include="test_main.c" />
     <ClCompile Include="WriteDataToFiles.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apartment.h" />
+    <ClInclude Include="DataLoader.h" />
     <ClInclude Include="history_structsAndConsts.h" />
     <ClInclude Include="declerations.h" />
   </ItemGroup>

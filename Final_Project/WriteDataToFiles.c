@@ -1,13 +1,14 @@
 #include "declerations.h"
 
-void writeDataToFiles(List apartments) {
+void writeDataToFiles(History_Data data) {
 
-	writeApartments(apartments);
+	writeApartments(data.apartments);
+	writeHistory(data.total, data.shortTerm_HistoryArr, data.LongTerm_HistoryList);
 
 }
 void writeApartments(List apartments) {
 
-	FILE* binary = fopen("Apartments.bin", "wb");
+	FILE* binary = fopen(FILE_APARTMENTS, "wb");
 	short int AptCode;
 	short int adressLength;
 	Apartment* current = apartments.head->next;
@@ -46,4 +47,41 @@ void writeCompressedData(Apartment* apt, FILE* file) {
 	fwrite(&third, sizeof(byte), 1, file);
 	fwrite(&cDate_first, sizeof(byte), 1, file);
 	fwrite(&cDate_second, sizeof(byte), 1, file);
+}
+
+void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_HistoryList) {
+	FILE * file;
+	int i;
+	int sthSize;
+	int hListSize;
+	int strSize;
+	if (total > SHORT_TERM_SIZE) {
+		sthSize = SHORT_TERM_SIZE;
+		hListSize = total - sthSize;
+	}
+	else {
+		sthSize = total;
+		hListSize = 0;
+	}
+	
+	HistoryEntry *p = LongTerm_HistoryList.tail;
+
+	file = fopen(FILE_HISTORY, "wt");
+
+	for (i = 0; i < sthSize; i++) {
+		strSize = strlen(shortTerm_HistoryArr[i]);
+		fwrite(shortTerm_HistoryArr[i], sizeof(char), strSize, file);
+		putc('\n', file);
+	}
+//	putc('\n', file);
+	if ((hListSize > 0) && (p != NULL)) {
+		while (p->prev != NULL) {
+			strSize = strlen(p->command);
+			fwrite(p->command, sizeof(char), strSize, file);
+			putc('\n', file);
+			p = p->prev;
+		}
+	}
+
+	fclose(file);
 }

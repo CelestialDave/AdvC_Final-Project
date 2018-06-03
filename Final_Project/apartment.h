@@ -20,5 +20,8 @@ typedef struct list {
 	Apartment* head;
 	Apartment* tail;
 }List;
+
+#define FILE_APARTMENTS "Apartments.bin"
+
 #define included
 #endif

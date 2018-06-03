@@ -34,11 +34,11 @@ void commander(History_Data* data, char* command) {
 		break;
 	case 's':
 		archivePrinter(data, SHORT_HISTORY_PRINT);
-		addToArchive(data, command);
+		//addToArchive(data, command);
 		break;
 	case 'h':
 		archivePrinter(data, FULL_HISTORY_PRINT);
-		addToArchive(data, command);
+		//addToArchive(data, command);
 		break;
 	case '!':
 		archiveQuery(data, &command);

@@ -42,6 +42,9 @@
     <ClCompile Include="WriteDataToFiles.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReadDataFromFiles.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declerations.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="history_structsAndConsts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
