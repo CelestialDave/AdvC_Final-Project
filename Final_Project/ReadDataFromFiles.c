@@ -10,7 +10,7 @@ void readDataFromFiles(History_Data * data) {
 void readApartments(List * apartments) {
 	FILE * file;
 	long int fSize = fileSize(FILE_APARTMENTS);
-	//Apartment * p = apartments->head->next;
+	
 	if (fSize > 0) {
 		short int code;
 		short int addressLen;
@@ -55,7 +55,7 @@ void readApartments(List * apartments) {
 			dbMonth = (short int)(((byte4 & MASK_DBMONTH1) << 1) | ((byte5 & MASK_DBMONTH2) >> 7));
 			dbYear = (short int)(byte5 & MASK_DBYEAR);
 
-			time.tm_year = dbYear - 1900;
+			time.tm_year = (dbYear + 2000) - 1900;
 			time.tm_mon = dbMonth - 1;
 			time.tm_mday = dbDay;
 			time.tm_hour = 12;
@@ -63,7 +63,7 @@ void readApartments(List * apartments) {
 			time.tm_sec = 12;
 			time.tm_isdst = 1;
 			epoch = mktime(&time);
-			hours = epoch / 3600;
+			hours = (int)(epoch / 3600);
 
 			entryDate.day = day;
 			entryDate.month = month;
@@ -91,7 +91,7 @@ long int fileSize(char * filename) {
 	return res;
 }
 
-//void readHistory(int * total, char ** shortTerm_HistoryArr, HistoryList * LongTerm_HistoryList) {
+
 void readHistory(History_Data * data) {
 	char * command;
 	int logS = 0;

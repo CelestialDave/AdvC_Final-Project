@@ -40,8 +40,11 @@ void writeCompressedData(Apartment* apt, FILE* file) {
 	second = ((byte)(second_mask & apt->date.day) << 7) | ((byte)(third_mask & apt->date.month) << 3) 
 		| ((byte)(forth_mask & apt->date.year) >> 4);
 	third = ((byte)(third_mask & apt->date.year) << 4);
-	cDate_first = ((byte)(first_mask & apt->dbDate.day) << 3) | ((byte)(third_mask & apt->dbDate.month) >> 1);;
+	// Dudi:
+	cDate_first = ((byte)(0x1F & apt->dbDate.day) << 3) | ((byte)(third_mask & apt->dbDate.month) >> 1);
 	cDate_second = ((byte)(second_mask & apt->dbDate.month) << 7) | ((byte)(fifth_mask & apt->dbDate.year));
+	//cDate_first = ((byte)(first_mask & apt->dbDate.day) << 3) | ((byte)(third_mask & apt->dbDate.month) >> 1);
+	//cDate_second = ((byte)(second_mask & apt->dbDate.month) << 7) | ((byte)(fifth_mask & apt->dbDate.year));
 	fwrite(&first, sizeof(byte), 1, file);
 	fwrite(&second, sizeof(byte), 1, file);
 	fwrite(&third, sizeof(byte), 1, file);
@@ -69,14 +72,14 @@ void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_
 	file = fopen(FILE_HISTORY, "wt");
 
 	for (i = 0; i < sthSize; i++) {
-		strSize = strlen(shortTerm_HistoryArr[i]);
+		strSize = (int)strlen(shortTerm_HistoryArr[i]);
 		fwrite(shortTerm_HistoryArr[i], sizeof(char), strSize, file);
 		putc('\n', file);
 	}
-//	putc('\n', file);
+
 	if ((hListSize > 0) && (p != NULL)) {
 		while (p->prev != NULL) {
-			strSize = strlen(p->command);
+			strSize = (int)strlen(p->command);
 			fwrite(p->command, sizeof(char), strSize, file);
 			putc('\n', file);
 			p = p->prev;

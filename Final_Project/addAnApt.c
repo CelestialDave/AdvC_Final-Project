@@ -15,11 +15,10 @@ void addAnApt(char** command, List* list) {
 	tm = localtime(&currentTime);
 	sDate.day = tm->tm_mon + 1;
 	sDate.month = tm->tm_mday;
-	sDate.year = tm->tm_year + 1900;
-
 	// Dudi:
-	//copy = malloc(strlen(*command) * sizeof(char));
-	//strcpy(copy, *command);
+	sDate.year = (tm->tm_year + 1900) % 100;
+	//sDate.year = tm->tm_year + 1900;
+
 	copyString(&copy, *command);
 	temp = strtok(copy, "\"");
 	temp = strtok(NULL, "\"");
@@ -31,10 +30,11 @@ void addAnApt(char** command, List* list) {
 	date.year = atoi(strtok(NULL, " "));
 	insertDataToEndList(list, code, address, rooms, price, sDate, date, NULL);
 	code++;
-	// Dudi:
+	
 	free(copy);
-	//*command = copy;
+	
 }
+
 List makeEmptyList() {
 	List res;
 	res.head = calloc(1, sizeof(Apartment));
