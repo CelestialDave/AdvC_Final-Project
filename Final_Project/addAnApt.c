@@ -15,6 +15,8 @@ void addAnApt(char** command, List* list) {
 	tm = localtime(&currentTime);
 	sDate.day = tm->tm_mon + 1;
 	sDate.month = tm->tm_mday;
+	sDate.year = tm->tm_year + 1900;
+
 	// Dudi:
 	sDate.year = (tm->tm_year + 1900) % 100;
 	//sDate.year = tm->tm_year + 1900;
