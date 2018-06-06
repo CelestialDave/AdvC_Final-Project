@@ -61,14 +61,13 @@ int analizeCodeForBuy(char* command) {
 	return res;
 }
 void analizeParametersForDelete(int* hours, char** command) {
-	char* copy;
+	char* copy = NULL;
 	int res;
 	char* delimeters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>-";
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	res = 24 * atoi(strtok(*command, delimeters));
+	copyString(&copy, *command);
+	res = 24 * atoi(strtok(copy, delimeters));
 	*hours = res;
-	*command = copy;
+	free(copy);
 }
 
 char recognizeCommand(char* command) {
@@ -140,15 +139,12 @@ char* getCommand() {
 }
 
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
-	char* copy;
+	char* copy = NULL;
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
 	char* digits = " -1234567890";
-	copy = malloc(strlen(*command) * sizeof(char));
-	//strcpy(copy, *command);
 	copyString(&copy, *command);
 	subCommand = strtok(copy, digits);
-	//subCommand = strtok(NULL, digits);
 	while (subCommand != NULL) {
 		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
 			*minRooms = atoi(subCommand = strtok(NULL, abc));
