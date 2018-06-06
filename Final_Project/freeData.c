@@ -11,8 +11,7 @@ void deleteAnApt(List* list, int hours) {
 		if (currentHoursTime - current->next->dbDate.hours <= hours) {
 			toDel = current->next;
 			current->next = current->next->next;
-			free(toDel);
-			current = list->head;
+			freeApt(&toDel);
 		}
 		else {
 			current = current->next;

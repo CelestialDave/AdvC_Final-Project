@@ -9,6 +9,6 @@ void buyAnApt(List lst, int code) {
 	if (current != NULL) {
 		toDel = current->next;
 		current->next = current->next->next;
-		free(toDel);
+		freeApt(&toDel);
 	}
 }

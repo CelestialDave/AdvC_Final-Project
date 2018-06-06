@@ -10,7 +10,7 @@
 
 typedef unsigned char byte;
 void commander(History_Data* hData, char* command);
-void addAnApt(char** command, List* list);
+void addAnApt(char** command, List* list, int* code);
 List makeEmptyList();
 void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
 Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);

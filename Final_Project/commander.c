@@ -29,7 +29,7 @@ void commander(History_Data* data, char* command) {
 		addToArchive(data, command);
 		break;
 	case 'a':
-		addAnApt(&command, &apartments);
+		addAnApt(&command, &apartments,&data->code);
 		data->apartments = apartments;
 		addToArchive(data, command);
 		break;

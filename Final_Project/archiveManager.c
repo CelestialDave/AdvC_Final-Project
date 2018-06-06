@@ -23,6 +23,7 @@ void historyDataPreLoaderPrep(History_Data * hData) {
 	initShortTermArr(hData->shortTerm_HistoryArr);
 	createEmptyHistoryList(&hData->LongTerm_HistoryList);
 	hData->total = 0;
+	hData->code = 1;
 }
 
 void initShortTermArr(char * stArr[]) {

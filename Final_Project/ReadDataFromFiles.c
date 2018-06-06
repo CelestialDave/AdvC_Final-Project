@@ -4,7 +4,7 @@ void readDataFromFiles(History_Data * data) {
 
 	readApartments(&data->apartments);
 	readHistory(data);
-
+	data->code = data->apartments.tail->code + 1;
 }
 
 void readApartments(List * apartments) {

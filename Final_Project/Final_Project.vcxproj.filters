@@ -33,9 +33,6 @@
     <ClCompile Include="archiveManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="deleteAnApt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReadDataFromFiles.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="freeData.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
