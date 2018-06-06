@@ -1,5 +1,7 @@
-add-an-apt "Ben Gurion 25 Herzliya" 2220220220 220 01 08 16
-add-an-apt "Ben Gurion 25 Herzliya" 2101010 10 01 08 16
+add-an-apt "Gordon 85 Holon" 1500000 3 15 06 17
+add-an-apt "Ben Gurion 25 Herzliya" 200000 5 01 08 16
+add-an-apt "Rothschild 67 Rishon Le Zion" 1700000 3 03 10 16
+add-an-apt "Dizengoff 180 Tel Aviv" 2000000 4 28 04 16
 get-an-apt -MinimumNumRooms 1
 delete-an-apt -Enter 5
 get-an-apt -MinimumNumRooms 1
