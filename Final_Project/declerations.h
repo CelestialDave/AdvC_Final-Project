@@ -16,7 +16,7 @@ void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int
 Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
 bool isEmpty(List lst);
 void insertNodeToTail(List* lst, Apartment* node);
-void buyAnApt(List lst, int code);
+void buyAnApt(List* lst, int code);
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort);
 void getAnApt(int price, int minRooms, int maxRooms, int sort, char* command, List apartments);
 bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt);

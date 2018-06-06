@@ -1,8 +1,8 @@
 #include "declerations.h"
-void buyAnApt(List lst, int code) {
+void buyAnApt(List* lst, int code) {
 	Apartment* current;
 	Apartment* toDel;
-	current = lst.head;
+	current = lst->head;
 	while (current->next->code != code) {
 		current = current->next;
 	}

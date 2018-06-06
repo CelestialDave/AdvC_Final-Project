@@ -10,6 +10,7 @@ void commander(History_Data* data, char* command) {
 	int maxRooms = -1;//parameter for get-an-apt
 	int sort = 0; // parameter for get-an-apt 1 for sr 2 for s 0 for nothing
 	char recognize;
+	int code;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
 	case 'g':
@@ -18,9 +19,9 @@ void commander(History_Data* data, char* command) {
 		addToArchive(data, command);
 		break;
 	case 'b':
-		// MISSING //
+		code = analizeCodeForBuy(command);
+		buyAnApt(&data->apartments,code);
 		addToArchive(data, command);
-		//data->apartments = apartments;
 		break;
 	case 'd':
 		analizeParametersForDelete(&hours, &command);
@@ -47,6 +48,16 @@ void commander(History_Data* data, char* command) {
 	default:
 		return;
 	}
+}
+int analizeCodeForBuy(char* command) {
+
+	int res = 0;
+	int read = 0;
+	while (command[read++] != '\0') {
+
+	}
+
+
 }
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy;

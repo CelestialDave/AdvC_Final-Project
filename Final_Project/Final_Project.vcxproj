@@ -150,7 +150,6 @@
     <ClCompile Include="archiveManager.c" />
     <ClCompile Include="buyAnApt.c" />
     <ClCompile Include="commander.c" />
-    <ClCompile Include="deleteAnApt.c" />
     <ClCompile Include="freeData.c" />
     <ClCompile Include="getAnApt.c" />
     <ClCompile Include="main.c" />
