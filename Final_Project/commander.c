@@ -53,11 +53,14 @@ int analizeCodeForBuy(char* command) {
 
 	int res = 0;
 	int read = 0;
-	while (command[read++] != '\0') {
-
+	while (command[read] != '\0') {
+		if (command[read] >= '0' && command[read] <= '9') {
+			res *= 10;
+			res += command[read] - '0';
+		}
+		read++;
 	}
-
-
+	return res;
 }
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy;

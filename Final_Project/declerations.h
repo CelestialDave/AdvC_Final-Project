@@ -29,7 +29,7 @@ void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apart
 
 void analizeParametersForDelete(int* hours, char** command);
 void deleteAnApt(List* list, int hours);
-
+int analizeCodeForBuy(char* command);
 // History funcs:
 #define SHORT_HISTORY_PRINT 4
 #define FULL_HISTORY_PRINT 5
