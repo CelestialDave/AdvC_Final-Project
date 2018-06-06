@@ -98,53 +98,16 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 			p1 += str1Size;
 			pStr1 = strstr(p1, str1);
 		}
+		while (*p1) {
+			*(pNewCmd++) = *(p1++);
+		}
 		free(command);
 	}
 
-
 	free(str1);
 	free(str2);
+
 	return newCommand;
-
-
-	//char * newCommand;
-	//int newCmdSize;
-	//int str1Size = (int)strlen(str1);
-	//int str2Size = (int)strlen(str2);
-	//int cmdSize = (int)strlen(command);
-	//char * p1 = strstr(command, str1);
-
-	//if (p1 == NULL)
-	//	return NULL;
-
-	//char * p2 = str2;
-	//newCmdSize = cmdSize - str1Size + str2Size;
-	//if (newCmdSize == cmdSize) {
-	//	while (*p2) {
-	//		*p1 = *p2;
-	//		p1++; p2++;
-	//	}
-	//	newCommand = command;
-	//}
-	//else {// (newCmdSize != cmdSize) {
-	//	newCommand = (char *)calloc(newCmdSize + 1, sizeof(char));
-	//	*p1 = '\0';
-	//	strcpy(newCommand, command);
-	//	*p1 = str1[0];
-	//	strcat(newCommand, str2);
-	//	int i = (int)(p1 - command) + str2Size; // newCommand index
-	//	p1 = p1 + str1Size; // move pointer past str1 in 'command'
-	//	// complete string leftovers:
-	//	while (*p1) {
-	//		newCommand[i++] = *p1;
-	//		p1++;
-	//	}
-	//	newCommand[i] = '\0';
-	//	free(command);
-	//}
-	//free(str1);
-	//free(str2);
-	//return newCommand;
 }
 
 char * retrieveCommand(History_Data * hData, int commandNumber) {
@@ -236,34 +199,8 @@ void archivePrinter(History_Data * hData, int task) {
 					break;
 			}
 		}
-	}
+	} 
 	else {
 		return;
-	}
-}
-
-void freeHistoryData(History_Data * hData) {
-	freeShortTermHisArr(hData->shortTerm_HistoryArr);
-	freeHistoryList(&hData->LongTerm_HistoryList);
-	return;
-}
-
-void freeShortTermHisArr(char ** shortTermArr) {
-	int i;
-	for (i = SHORT_TERM_SIZE - 1; i >= 0; i--) {
-		if (shortTermArr[i] != NULL)
-			free(shortTermArr[i]);
-	}
-}
-
-void freeHistoryList(HistoryList * hList) {
-	HistoryEntry * p = hList->tail;
-	HistoryEntry *  temp;
-	while (p != NULL) {
-		if (p->command != NULL)
-			free(p->command);
-		temp = p;
-		p = p->prev;
-		free(temp);
 	}
 }

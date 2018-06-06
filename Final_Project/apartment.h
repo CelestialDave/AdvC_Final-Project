@@ -16,6 +16,7 @@ typedef struct apartment {
 	Date dbDate;
 	struct apartment* next;
 }Apartment;
+
 typedef struct list {
 	Apartment* head;
 	Apartment* tail;
