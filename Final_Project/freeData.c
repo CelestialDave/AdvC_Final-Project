@@ -19,6 +19,7 @@ void deleteAnApt(List* list, int hours) {
 		}
 	}
 }
+
 void freeData(History_Data * data) {
 	freeApartments(&data->apartments);
 	freeHistoryData(data);

@@ -34,6 +34,7 @@ void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List 
 	}
 	free(res);
 }
+
 void mergeSortApts(Apartment** arr, int size) {
 	if (size > 1) {
 		Apartment** temp;
@@ -47,6 +48,7 @@ void mergeSortApts(Apartment** arr, int size) {
 		free(temp);
 	}
 }
+
 void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apartment** res) {
 
 	int read1;

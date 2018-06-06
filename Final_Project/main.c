@@ -26,7 +26,7 @@ delete-an-apt -Enter 1
 
 	// Load Data onto files:
 	writeDataToFiles(hData);
+	
 	// Release Data:
-	freeApartments(&hData);
-	freeHistoryData(&hData);
+	freeData(&hData);
 }

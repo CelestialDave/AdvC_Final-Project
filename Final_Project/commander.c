@@ -36,11 +36,9 @@ void commander(History_Data* data, char* command) {
 		break;
 	case 's':
 		archivePrinter(data, SHORT_HISTORY_PRINT);
-		//addToArchive(data, command);
 		break;
 	case 'h':
 		archivePrinter(data, FULL_HISTORY_PRINT);
-		//addToArchive(data, command);
 		break;
 	case '!':
 		archiveQuery(data, &command);
@@ -145,10 +143,12 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 	char* copy;
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
-	char* digits = "-1234567890 ";
+	char* digits = " -1234567890";
 	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	subCommand = strtok(*command, digits);
+	//strcpy(copy, *command);
+	copyString(&copy, *command);
+	subCommand = strtok(copy, digits);
+	//subCommand = strtok(NULL, digits);
 	while (subCommand != NULL) {
 		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
 			*minRooms = atoi(subCommand = strtok(NULL, abc));
@@ -167,7 +167,7 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 		}
 		subCommand = strtok(NULL, digits);
 	}
-	*command = copy;
+	free(copy);
 }
 
 /////////////////////////////////
