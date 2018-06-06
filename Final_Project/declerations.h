@@ -48,9 +48,6 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 char * retrieveCommand(History_Data * hData, int commandNumber);
 void addToArchive(History_Data * hData, char * command);
 void archivePrinter(History_Data * hData, int task);
-void freeHistoryData(History_Data * hData);
-void freeShortTermHisArr(char ** shortTermArr);
-void freeHistoryList(HistoryList * hList);
 
 // Read Data:
 void readDataFromFiles(History_Data * data);
@@ -66,5 +63,12 @@ void writeApartments(List apartments);
 void writeCompressedData(Apartment* apt, FILE* file);
 void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_HistoryList);
 
+// Free Data:
+void freeData(History_Data * data);
+void freeApt(Apartment ** apt);
+void freeApartments(List * apartments);
+void freeHistoryData(History_Data * hData);
+void freeShortTermHisArr(char ** shortTermArr);
+void freeHistoryList(HistoryList * hList);
 
 //#define arc_print_params

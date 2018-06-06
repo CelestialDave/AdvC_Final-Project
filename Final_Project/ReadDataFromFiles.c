@@ -108,7 +108,7 @@ void readHistory(History_Data * data) {
 			}
 			allocStr(&command, &phS, logS, 1);
 			command[logS] = '\0';
-			data->total++;
+			data->total++; 
 			if (data->total <= SHORT_TERM_SIZE) {
 				data->shortTerm_HistoryArr[data->total - 1] = command;
 			}

@@ -25,5 +25,6 @@ get-an-apt –MinimumNumRooms 3 –MaximumNumRooms 5 –MaximumPrice 1750000 -s*/
 	// Load Data onto files:
 	writeDataToFiles(hData);
 	// Release Data:
+	freeApartments(&hData);
 	freeHistoryData(&hData);
 }

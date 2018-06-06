@@ -45,6 +45,9 @@
     <ClCompile Include="ReadDataFromFiles.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="freeData.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="declerations.h">
