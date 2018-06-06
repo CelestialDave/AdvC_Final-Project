@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "apartment.h"
+#include "DataLoader.h"
 #include "history_structsAndConsts.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,10 +52,19 @@ void freeHistoryData(History_Data * hData);
 void freeShortTermHisArr(char ** shortTermArr);
 void freeHistoryList(HistoryList * hList);
 
-// write
-void writeDataToFiles(List apartments);
+// Read Data:
+void readDataFromFiles(History_Data * data);
+void readApartments(List * apartments);
+long int fileSize(char * filename);
+void readHistory(History_Data * data);
+void allocStr(char ** str, int * phS, int logS, int isFinished);
+
+
+// Write Data:
+void writeDataToFiles(History_Data data);
 void writeApartments(List apartments);
 void writeCompressedData(Apartment* apt, FILE* file);
+void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_HistoryList);
 
 
 //#define arc_print_params

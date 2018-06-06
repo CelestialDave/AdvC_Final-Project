@@ -11,6 +11,9 @@ get-an-apt –MinimumNumRooms 3 –MaximumNumRooms 5 –MaximumPrice 1750000 -s*/
 	History_Data hData;
 	historyDataPreLoaderPrep(&hData);
 	// Data Loader() 
+	readDataFromFiles(&hData);
+
+
 	// Opening Message:
 	printf("Please enter one of the following commands:\nadd-an-apt, get-an-apt, buy-an-apt or delete-an-apt\nFor reconstruction commands, please enter:\n!!, !num, history, short_history or !num^str1^str2\nTo exit, enter exit.\n");
 	command = getCommand();
@@ -18,7 +21,9 @@ get-an-apt –MinimumNumRooms 3 –MaximumNumRooms 5 –MaximumPrice 1750000 -s*/
 		commander(&hData, command);
 		command = getCommand();
 	}
-	writeDataToFiles(hData.apartments);
+
+	// Load Data onto files:
+	writeDataToFiles(hData);
 	// Release Data:
 	freeHistoryData(&hData);
 }

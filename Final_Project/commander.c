@@ -1,6 +1,7 @@
 #include "declerations.h"
 
 void commander(History_Data* data, char* command) {
+	if (command == "") return;
 
 	List apartments = data->apartments;
 	int hours; // parameter for delte-an-apt
@@ -34,11 +35,11 @@ void commander(History_Data* data, char* command) {
 		break;
 	case 's':
 		archivePrinter(data, SHORT_HISTORY_PRINT);
-		addToArchive(data, command);
+		//addToArchive(data, command);
 		break;
 	case 'h':
 		archivePrinter(data, FULL_HISTORY_PRINT);
-		addToArchive(data, command);
+		//addToArchive(data, command);
 		break;
 	case '!':
 		archiveQuery(data, &command);
@@ -104,6 +105,9 @@ char* getCommand() {
 		command = (char *)malloc(phSize * sizeof(char));
 		command[logSize++] = input;
 		scanf("%c", &input);
+	}
+	else {
+		return "";
 	}
 	while (input != '\n') {
 		if (logSize == phSize) {
