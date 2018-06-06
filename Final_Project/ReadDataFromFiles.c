@@ -34,7 +34,6 @@ void readApartments(List * apartments) {
 		Date entryDate;
 		Date dbDate;
 
-
 		file = fopen(FILE_APARTMENTS, "rb");
 		while (ftell(file) < fSize) {
 			fread(&code, sizeof(short int), 1, file);
@@ -64,7 +63,6 @@ void readApartments(List * apartments) {
 			time.tm_isdst = 1;
 			epoch = mktime(&time);
 			hours = (int)(epoch / 3600);
-
 			entryDate.day = day;
 			entryDate.month = month;
 			entryDate.year = year;
@@ -86,8 +84,9 @@ long int fileSize(char * filename) {
 	if (file != NULL) {
 		fseek(file, 0, SEEK_END);
 		res = ftell(file);
+		fclose(file);
 	}
-	fclose(file);
+	
 	return res;
 }
 

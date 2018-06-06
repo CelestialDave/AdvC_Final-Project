@@ -40,11 +40,8 @@ void writeCompressedData(Apartment* apt, FILE* file) {
 	second = ((byte)(second_mask & apt->date.day) << 7) | ((byte)(third_mask & apt->date.month) << 3) 
 		| ((byte)(forth_mask & apt->date.year) >> 4);
 	third = ((byte)(third_mask & apt->date.year) << 4);
-	// Dudi:
 	cDate_first = ((byte)(0x1F & apt->dbDate.day) << 3) | ((byte)(third_mask & apt->dbDate.month) >> 1);
 	cDate_second = ((byte)(second_mask & apt->dbDate.month) << 7) | ((byte)(fifth_mask & apt->dbDate.year));
-	//cDate_first = ((byte)(first_mask & apt->dbDate.day) << 3) | ((byte)(third_mask & apt->dbDate.month) >> 1);
-	//cDate_second = ((byte)(second_mask & apt->dbDate.month) << 7) | ((byte)(fifth_mask & apt->dbDate.year));
 	fwrite(&first, sizeof(byte), 1, file);
 	fwrite(&second, sizeof(byte), 1, file);
 	fwrite(&third, sizeof(byte), 1, file);
