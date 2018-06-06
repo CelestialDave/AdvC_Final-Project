@@ -50,44 +50,100 @@ void substituteAndRun(History_Data * hData, int commandNumber, char * str1, char
 }
 
 char * substituteCommandParams(History_Data * hData, char * command, char * str1, char * str2) {
-	char * newCommand;
+
+	char * newCommand = NULL;
 	int newCmdSize;
 	int str1Size = (int)strlen(str1);
 	int str2Size = (int)strlen(str2);
 	int cmdSize = (int)strlen(command);
-	char * p1 = strstr(command, str1);
-
-	if (p1 == NULL)
-		return NULL;
-
+	bool isEqual = false;
+	int counter = 0;
+	char * p1 = command;
 	char * p2 = str2;
-	newCmdSize = cmdSize - str1Size + str2Size;
-	if (newCmdSize == cmdSize) {
-		while (*p2) {
-			*p1 = *p2;
-			p1++; p2++;
+	char * pStr1 = strstr(command, str1);
+	char * pNewCmd;
+
+	if (str1Size == str2Size) {
+		while (pStr1 != NULL) {
+			isEqual = true;
+			while (*p2) {
+				*pStr1 = *p2;
+				pStr1++; p2++;
+			}
+			p2 = str2;
+			pStr1 = strstr(pStr1, str1);
 		}
 		newCommand = command;
 	}
-	else {// (newCmdSize != cmdSize) {
-		newCommand = (char *)calloc(newCmdSize + 1, sizeof(char));
-		*p1 = '\0';
-		strcpy(newCommand, command);
-		*p1 = str1[0];
-		strcat(newCommand, str2);
-		int i = (int)(p1 - command) + str2Size; // newCommand index
-		p1 = p1 + str1Size; // move pointer past str1 in 'command'
-		// complete string leftovers:
-		while (*p1) {
-			newCommand[i++] = *p1;
-			p1++;
+	else {
+		while (pStr1 != NULL) {
+			counter++;
+			pStr1 += str1Size;
+			pStr1 = strstr(pStr1, str1);
 		}
-		newCommand[i] = '\0';
+		newCmdSize = cmdSize - (counter * str1Size) + (counter * str2Size);
+		newCommand = (char *)calloc(newCmdSize + 1, sizeof(char));
+		pNewCmd = newCommand;
+		pStr1 = strstr(command, str1);
+		while (pStr1 != NULL) {
+			while (p1 < pStr1) {
+				*(pNewCmd++) = *(p1++);
+			}
+
+			while (*p2) {
+				*(pNewCmd++) = *(p2++);
+			}
+			p2 = str2;
+			p1 += str1Size;
+			pStr1 = strstr(p1, str1);
+		}
 		free(command);
 	}
+
+
 	free(str1);
 	free(str2);
 	return newCommand;
+
+
+	//char * newCommand;
+	//int newCmdSize;
+	//int str1Size = (int)strlen(str1);
+	//int str2Size = (int)strlen(str2);
+	//int cmdSize = (int)strlen(command);
+	//char * p1 = strstr(command, str1);
+
+	//if (p1 == NULL)
+	//	return NULL;
+
+	//char * p2 = str2;
+	//newCmdSize = cmdSize - str1Size + str2Size;
+	//if (newCmdSize == cmdSize) {
+	//	while (*p2) {
+	//		*p1 = *p2;
+	//		p1++; p2++;
+	//	}
+	//	newCommand = command;
+	//}
+	//else {// (newCmdSize != cmdSize) {
+	//	newCommand = (char *)calloc(newCmdSize + 1, sizeof(char));
+	//	*p1 = '\0';
+	//	strcpy(newCommand, command);
+	//	*p1 = str1[0];
+	//	strcat(newCommand, str2);
+	//	int i = (int)(p1 - command) + str2Size; // newCommand index
+	//	p1 = p1 + str1Size; // move pointer past str1 in 'command'
+	//	// complete string leftovers:
+	//	while (*p1) {
+	//		newCommand[i++] = *p1;
+	//		p1++;
+	//	}
+	//	newCommand[i] = '\0';
+	//	free(command);
+	//}
+	//free(str1);
+	//free(str2);
+	//return newCommand;
 }
 
 char * retrieveCommand(History_Data * hData, int commandNumber) {
