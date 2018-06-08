@@ -80,7 +80,7 @@ void printAptsArrHighToLow(Apartment** arr, int size) {
 		printf("Number of rooms: %d\n", arr[i]->rooms);
 		printf("Price: %d\n", arr[i]->price);
 		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, (2000 + arr[i]->date.year));
-		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
+		printf("Database entry date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
 // a function that prints an array of apartments from low to high
@@ -89,11 +89,11 @@ void printAptsArrLowToHigh(Apartment** arr, int size) {
 	for (int i = 0; i < size; i++) {
 		printf("Apt details:\n");
 		printf("Code: %d\n", arr[i]->code);
-		printf("Adress: %s\n", arr[i]->adress);
+		printf("Address: %s\n", arr[i]->adress);
 		printf("Number of rooms: %d\n", arr[i]->rooms);
 		printf("Price: %d\n", arr[i]->price);
 		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, (2000 + arr[i]->date.year));
-		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
+		printf("Database entry date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
 // a function that checks if the conditions that were sent by the user meet to the apartment
