@@ -1,6 +1,7 @@
 #include "declerations.h"
 
-void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List apartments) {
+//void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List apartments) {
+void getAnApt(int price, int minRooms, int maxRooms, short int day, short int month, short int year, int sort, char* command, List apartments) {
 
 	Apartment** res;
 	Apartment* current;
@@ -11,7 +12,7 @@ void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List 
 	phSize = 2;
 	res = malloc(phSize * sizeof(Apartment*));
 	while (current != NULL) {
-		if (conditionsAreMet(price, minRooms, maxRooms, current)) {
+		if (conditionsAreMet(price, minRooms, maxRooms, day, month, year, current)) {
 			if (logSize == phSize) {
 				phSize *= 2;
 				res = (Apartment **)realloc(res, phSize * sizeof(Apartment*));
@@ -95,36 +96,63 @@ void printAptsArrLowToHigh(Apartment** arr, int size) {
 		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, arr[i]->dbDate.year);
 	}
 }
-bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt) {
+bool conditionsAreMet(int maxPrice, int minRooms, int maxRooms, short int day, short int month, short int year, Apartment* apt) {
+	bool res = true;
+	if (maxPrice != -1)
+		res = (res && (apt->price <= maxPrice));
+	if (res && minRooms != -1)
+		res = (apt->rooms >= minRooms);
+	if (res && maxRooms != -1)
+		res = (apt->rooms <= maxRooms);
+	if (res && (day != -1) && (month != -1) && (year != -1)) {
+		if (apt->date.year == year)
+			res = (((apt->date.month < month)) || ((apt->date.month == month) && (apt->date.day <= day)));
+		else
+			res = (apt->date.year < year);
+	}
 
-	if (price != -1) {
-		if (apt->price <= price) {
-			if (minRooms == -1 && maxRooms == -1) {
-				return true;
-			}
-			else if (maxRooms == -1) {
-				return apt->rooms >= minRooms;
-			}
-			else if (minRooms == -1) {
-				return apt->rooms <= maxRooms;
-			}
-			else {
-				return apt->rooms <= maxRooms && apt->rooms >= minRooms;
-			}
-		}
-	}
-	else if (minRooms != -1) {
-		if (apt->rooms >= minRooms) {
-			if (price == -1 && maxRooms == -1) {
-				return true;
-			}
-			else if (price == -1) {
-				return apt->rooms <= maxRooms;
-			}
-		}
-	}
-	else if (maxRooms != -1) {
-		return apt->rooms <= maxRooms;
-	}
-	return false;
+	//if (day != -1 && res);
+	//	res = (res && (apt->date.day == day));
+	//if (month != -1 && res)
+	//	res = (res && (apt->date.month == month));
+	//if (year != -1 && res)
+	//	res = (res && (apt->date.year == year));
+
+
+	//if (maxPrice != -1) {
+	//	if (apt->price <= maxPrice) {
+	//		if (minRooms == -1 && maxRooms == -1) {
+	//			//return true;
+	//			res = (res && true);
+	//		}
+	//		else if (maxRooms == -1) {
+	//			//return apt->rooms >= minRooms;
+	//			res = (res && (apt->rooms >= minRooms));
+	//		}
+	//		else if (minRooms == -1) {
+	//			//return apt->rooms <= maxRooms;
+	//			res = (res && (apt->rooms <= maxRooms));
+	//		}
+	//		else {
+	//			//return apt->rooms <= maxRooms && apt->rooms >= minRooms;
+	//			res = (res && (apt->rooms <= maxRooms && apt->rooms >= minRooms));
+	//		}
+	//	}
+	//}
+	//else if (minRooms != -1) {
+	//	if (apt->rooms >= minRooms) {
+	//		if (maxPrice == -1 && maxRooms == -1) {
+	//			return true;
+	//		}
+	//		else if (maxPrice == -1) {
+	//			return apt->rooms <= maxRooms;
+	//		}
+	//	}
+	//}
+	//else if (maxRooms != -1) {
+	//	return apt->rooms <= maxRooms;
+	//}
+
+
+	return res;
 }

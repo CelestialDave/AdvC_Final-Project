@@ -5,13 +5,6 @@
 #include "declerations.h"
 
 int main() {
-	/*add-an-apt "Dizengoff 180 Tel Aviv" 2000000 4 28 04 16
-add-an-apt "Rothschild 67 Rishon Le Zion" 1700000 3 03 10 16
-add-an-apt "Ben Gurion 25 Herzliya" 200000 5 01 08 16
-add-an-apt "Gordon 85 Holon" 1500000 3 15 06 17
-get-an-apt –MinimumNumRooms 0
-delete-an-apt -Enter 1
-*/
 
 	// Declaring Variabls:
 	char* command;
@@ -39,5 +32,6 @@ delete-an-apt -Enter 1
 	// Free Data:
 	freeData(&data);
 
+	// User Farewell Message:
 	printf("Good Bye!\n");
 }

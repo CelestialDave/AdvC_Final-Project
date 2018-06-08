@@ -1,5 +1,6 @@
 #include "declerations.h"
 
+// a function that gets a command, analizes it, and initiates it
 void commander(Data* data, char* command) {
 	if (command == "") return;
 
@@ -8,14 +9,17 @@ void commander(Data* data, char* command) {
 	int price = -1; // parameter for get-an-apt
 	int minRooms = -1; //parameter for get-an-apt
 	int maxRooms = -1;//parameter for get-an-apt
+	short int day = -1;
+	short int month = -1;
+	short int year = -1;
 	int sort = 0; // parameter for get-an-apt 1 for sr 2 for s 0 for nothing
 	char recognize;
 	int code;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
 	case 'g':
-		analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
-		getAnApt(price,minRooms,maxRooms,sort,command, apartments);
+		analizeParametersForGet(&price, &minRooms, &maxRooms, &day, &month, &year, &command, &sort);
+		getAnApt(price, minRooms, maxRooms, day, month, year, sort, command, apartments);
 		addToArchive(data, command);
 		break;
 	case 'b':
@@ -47,6 +51,8 @@ void commander(Data* data, char* command) {
 		return;
 	}
 }
+
+// a function that analizes parameters from a buy-an-apt-command
 int analizeCodeForBuy(char* command) {
 
 	int res = 0;
@@ -61,6 +67,7 @@ int analizeCodeForBuy(char* command) {
 	return res;
 }
 
+// a function that analizes parameters from a delete-an-apt-command
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy = NULL;
 	int res;
@@ -71,6 +78,7 @@ void analizeParametersForDelete(int* hours, char** command) {
 	free(copy);
 }
 
+// a function that recognizes the command that was entered by the user
 char recognizeCommand(char* command) {
 
 	char* res;
@@ -103,6 +111,7 @@ char recognizeCommand(char* command) {
 		return '0';
 }
 
+// a function that gets a command of unknown length from the user
 char* getCommand() {
 	char* command;
 	char input;
@@ -139,11 +148,15 @@ char* getCommand() {
 	return command;
 }
 
-void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
+// a function that analizes parameters from a get-an-apt-command
+void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int* day, short int* month, short int* year, char** command, int* sort) {
 	char* copy = NULL;
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
 	char* digits = " -1234567890";
+	//char * rawDate = (char *)calloc(8 + 1, sizeof(char));
+	int rawDate;
+
 	copyString(&copy, *command);
 	subCommand = strtok(copy, digits);
 	while (subCommand != NULL) {
@@ -155,6 +168,16 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 		}
 		if (strcmp(subCommand, "MaximumPrice") == 0) {
 			*price = atoi(subCommand = strtok(NULL, abc));
+		}
+		if (strcmp(subCommand, "Date") == 0) {
+			subCommand = strtok(NULL, abc);
+			//copyString(&rawDate, subCommand);
+			rawDate = atoi(subCommand);
+			*year = (rawDate % 10000) % 100;
+			rawDate /= 10000;
+			*month = rawDate % 100;
+			rawDate /= 100;
+			*day = rawDate % 100;
 		}
 		if (strcmp(subCommand, "sr") == 0) {
 			*sort = 1;
