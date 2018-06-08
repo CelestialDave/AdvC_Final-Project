@@ -93,6 +93,8 @@ long int fileSize(char * filename) {
 
 	return res;
 }
+
+
 void readHistory(Data * data) {
 	char * command;
 	int logS = 0;

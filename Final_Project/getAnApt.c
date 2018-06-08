@@ -1,5 +1,6 @@
 #include "declerations.h"
 
+// a function that prints apartments according to parameters
 void getAnApt(int price, int minRooms, int maxRooms, short int day, short int month, short int year, int sort, char* command, List apartments) {
 	Apartment** res;
 	Apartment* current;
@@ -33,7 +34,7 @@ void getAnApt(int price, int minRooms, int maxRooms, short int day, short int mo
 	}
 	free(res);
 }
-
+// a function that sorts the apartment by price
 void mergeSortApts(Apartment** arr, int size) {
 	if (size > 1) {
 		Apartment** temp;
@@ -47,7 +48,7 @@ void mergeSortApts(Apartment** arr, int size) {
 		free(temp);
 	}
 }
-
+// merge sort algorithm
 void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apartment** res) {
 	int read1;
 	int read2;
@@ -70,7 +71,7 @@ void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apart
 		res[write++] = arr2[read2++];
 	}
 }
-
+// a function that prints an array of apartments from high price to low
 void printAptsArrHighToLow(Apartment** arr, int size) {
 	for (int i = size - 1; i >= 0; i--) {
 		printf("Apt details:\n");
@@ -82,7 +83,7 @@ void printAptsArrHighToLow(Apartment** arr, int size) {
 		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
-
+// a function that prints an array of apartments from low to high
 void printAptsArrLowToHigh(Apartment** arr, int size) {
 	
 	for (int i = 0; i < size; i++) {
@@ -95,7 +96,7 @@ void printAptsArrLowToHigh(Apartment** arr, int size) {
 		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
-
+// a function that checks if the conditions that were sent by the user meet to the apartment
 bool conditionsAreMet(int maxPrice, int minRooms, int maxRooms, short int day, short int month, short int year, Apartment* apt) {
 	bool res = true;
 	if (res && maxPrice != -1)
@@ -110,6 +111,5 @@ bool conditionsAreMet(int maxPrice, int minRooms, int maxRooms, short int day, s
 		else
 			res = (apt->date.year < year);
 	}
-
 	return res;
 }
