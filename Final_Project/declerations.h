@@ -1,74 +1,76 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "apartment.h"
-#include "DataLoader.h"
-#include "history_structsAndConsts.h"
+
+// General Libraries:
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
 #include <string.h>
+// Program Libraries:
+#include "dataLoader_header.h"
+#include "structsAndDefinitions.h"
 
-typedef unsigned char byte;
-void commander(History_Data* hData, char* command);
-void addAnApt(char** command, List* list, int* code);
-List makeEmptyList();
-void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
-Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
-bool isEmpty(List lst);
-void insertNodeToTail(List* lst, Apartment* node);
-void buyAnApt(List* lst, int code);
-void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort);
-void getAnApt(int price, int minRooms, int maxRooms, int sort, char* command, List apartments);
-bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt);
+// General Funcs:
+void copyString(char ** dest, char * source);
+void preDataLoaderPrep(Data * hData);
+void allocStr(char ** str, int * phS, int logS, int isFinished);
+
+// Commander:
+void commander(Data* hData, char* command);
 char recognizeCommand(char* command);
 char* getCommand();
+
+// Apartment Funcs:
+bool isEmpty(List lst);
+List makeEmptyList();
+Apartment* createApartment(int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
+void insertDataToEndList(List* lst, int code, char* adress, short int rooms, int price, Date sDate, Date date, Apartment* next);
+void insertNodeToTail(List* lst, Apartment* node);
+void addAnApt(char** command, List* list, int* code);
+void buyAnApt(List* lst, int code);
+int analizeCodeForBuy(char* command);
+void getAnApt(int price, int minRooms, int maxRooms, int sort, char* command, List apartments);
+void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort);
+bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt);
 void printAptsArrLowToHigh(Apartment** arr, int size);
 void printAptsArrHighToLow(Apartment** arr, int size);
 void mergeSortApts(Apartment** arr, int size);
 void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apartment** res);
-
-void analizeParametersForDelete(int* hours, char** command);
 void deleteAnApt(List* list, int hours);
-int analizeCodeForBuy(char* command);
+void analizeParametersForDelete(int* hours, char** command);
+
 // History funcs:
-#define SHORT_HISTORY_PRINT 4
-#define FULL_HISTORY_PRINT 5
+bool isEmptyHistoryList(HistoryList * hList);
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);
-void historyDataPreLoaderPrep(History_Data * hData);
+void insertToEndOfHistoryList(Data * hData, char * command);
 void initShortTermArr(char * stArr[]);
-bool isEmptyHistoryList(HistoryList * hList);
-void insertToEndOfHistoryList(History_Data * hData, char * command);
-void archiveQuery(History_Data * hData, char ** command);
+void addToArchive(Data * hData, char * command);
+void archiveQuery(Data * hData, char ** command);
 int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2);
-void copyString(char ** dest, char * source);
-void executeFromHistory(History_Data * hData, int commandNumber);
-void substituteAndRun(History_Data * hData, int commandNumber, char * str1, char * str2);
-char * substituteCommandParams(History_Data * hData, char * command, char * str1, char * str2);
-char * retrieveCommand(History_Data * hData, int commandNumber);
-void addToArchive(History_Data * hData, char * command);
-void archivePrinter(History_Data * hData, int task);
+char * retrieveCommand(Data * hData, int commandNumber);
+void executeFromHistory(Data * hData, int commandNumber);
+void substituteAndRun(Data * hData, int commandNumber, char * str1, char * str2);
+char * substituteCommandParams(Data * hData, char * command, char * str1, char * str2);
+void archivePrinter(Data * hData, int task);
 
 // Read Data:
-void readDataFromFiles(History_Data * data);
+void readDataFromFiles(Data * data);
 void readApartments(List * apartments);
 long int fileSize(char * filename);
-void readHistory(History_Data * data);
-void allocStr(char ** str, int * phS, int logS, int isFinished);
-
+void readHistory(Data * data);
 
 // Write Data:
-void writeDataToFiles(History_Data data);
+void writeDataToFiles(Data data);
 void writeApartments(List apartments);
 void writeCompressedData(Apartment* apt, FILE* file);
 void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_HistoryList);
 
 // Free Data:
-void freeData(History_Data * data);
+void freeData(Data * data);
 void freeApt(Apartment ** apt);
 void freeApartments(List * apartments);
-void freeHistoryData(History_Data * hData);
+void freeHistoryData(Data * hData);
 void freeShortTermHisArr(char ** shortTermArr);
 void freeHistoryList(HistoryList * hList);
 
-//#define arc_print_params

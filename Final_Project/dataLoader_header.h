@@ -1,6 +1,7 @@
 
 #ifndef data_loader
 #define  data_loader
+// Read-Data related Masks:
 #define MASK_ROOMS 0xF0
 #define MASK_DAY1 0x0F
 #define MASK_DAY2 0x80

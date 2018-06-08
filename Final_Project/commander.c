@@ -1,6 +1,6 @@
 #include "declerations.h"
 
-void commander(History_Data* data, char* command) {
+void commander(Data* data, char* command) {
 	if (command == "") return;
 
 	List apartments = data->apartments;
@@ -60,6 +60,7 @@ int analizeCodeForBuy(char* command) {
 	}
 	return res;
 }
+
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy = NULL;
 	int res;
@@ -166,11 +167,10 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 	free(copy);
 }
 
-/////////////////////////////////
+// -------------------------------
 // History related functions:
-////////////////////////////////
 
-void archiveQuery(History_Data * hData, char ** command) {
+void archiveQuery(Data * hData, char ** command) {
 	int commandNumber = -1;
 	char *str1, *str2;
 	str1 = str2 = NULL;
@@ -241,6 +241,29 @@ int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, ch
 				return RUN_COMMAND_NUM;
 			else
 				return -1;
+		}
+	}
+}
+
+
+// -----------------------
+//	General Functions:
+
+void allocStr(char ** str, int * phS, int logS, int isFinished) {
+	if (isFinished == 0) {
+		if (*phS == 0) {
+			*phS = 1;
+			*str = (char *)calloc(*phS, sizeof(char));
+		}
+		else if (logS == *phS) {
+			*phS *= 2;
+			*str = (char *)realloc(*str, *phS * sizeof(char));
+		}
+	}
+	else if (isFinished == 1) {
+		if (logS < *phS) {
+			*str = (char *)realloc(*str, (logS + 1) * sizeof(char));
+			*phS = logS;
 		}
 	}
 }

@@ -33,16 +33,10 @@
     <ClCompile Include="archiveManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WriteDataToFiles.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadDataFromFiles.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="freeData.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLoader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,13 +44,10 @@
     <ClInclude Include="declerations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="apartment.h">
+    <ClInclude Include="structsAndDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="history_structsAndConsts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DataLoader.h">
+    <ClInclude Include="dataLoader_header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
