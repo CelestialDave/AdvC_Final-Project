@@ -4,12 +4,14 @@
 // Read-Data related funcs:
 ////////////////////////////
 
+// readDataFromFiles(); reads all data from files and applies it onto program data in memory
 void readDataFromFiles(Data * data) {
 	readApartments(&data->apartments);
 	readHistory(data);
 	data->code = data->apartments.tail->code + 1;
 }
 
+// readApartments(); read apartments from file and load to gragram data
 void readApartments(List * apartments) {
 	FILE * file;
 	long int fSize = fileSize(FILE_APARTMENTS);
