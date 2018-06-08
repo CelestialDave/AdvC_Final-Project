@@ -191,6 +191,7 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int
 // -------------------------------
 // History related functions:
 
+// archiveQuery(); receives a history query command (starting with '!' char) and executes it accordingly
 void archiveQuery(Data * hData, char ** command) {
 	int commandNumber = -1;
 	char *str1, *str2;
@@ -220,6 +221,7 @@ void archiveQuery(Data * hData, char ** command) {
 
 }
 
+// clasifyQueryTaskParams(); returns the type of task required by archiveQuery() by the content of query received
 int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2) {
 	char *p;
 	char *string1, *string2;
@@ -270,6 +272,7 @@ int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, ch
 // -----------------------
 //	General Functions:
 
+// allocStr(); manages string (char *) memory allocations
 void allocStr(char ** str, int * phS, int logS, int isFinished) {
 	if (isFinished == 0) {
 		if (*phS == 0) {
@@ -292,6 +295,7 @@ void allocStr(char ** str, int * phS, int logS, int isFinished) {
 	}
 }
 
+// copyString(); handles memory allocations and copying of strings (char *)
 void copyString(char ** dest, char * source) {
 	int size = (int)strlen(source);
 	*dest = (char *)calloc(size + 1, sizeof(char));
