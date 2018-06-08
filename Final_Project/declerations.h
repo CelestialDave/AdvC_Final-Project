@@ -44,6 +44,7 @@ bool isEmptyHistoryList(HistoryList * hList);
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);
 void insertToEndOfHistoryList(Data * hData, char * command);
+void insertToStartOfHistoryList(Data * hData, char * command);
 void initShortTermArr(char * stArr[]);
 void addToArchive(Data * hData, char * command);
 void archiveQuery(Data * hData, char ** command);
@@ -59,6 +60,7 @@ void readDataFromFiles(Data * data);
 void readApartments(List * apartments);
 long int fileSize(char * filename);
 void readHistory(Data * data);
+void applyHListOrder(HistoryList hList, int total);
 
 // Write Data:
 void writeDataToFiles(Data data);

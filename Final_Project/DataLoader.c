@@ -117,15 +117,24 @@ void readHistory(Data * data) {
 				data->shortTerm_HistoryArr[data->total - 1] = command;
 			}
 			else {
-				insertToEndOfHistoryList(data, command);
+				insertToStartOfHistoryList(data, command);
 			}
 			logS = phS = 0;
 			ch = getc(file);
 		}
 		fclose(file);
+		applyHListOrder(data->LongTerm_HistoryList, data->total);
 	}
 }
 
+void applyHListOrder(HistoryList hList, int total) {
+	int i = 0;
+	HistoryEntry * p = hList.tail;
+	while (p->prev != NULL) {
+		p->order = (total - SHORT_TERM_SIZE) - i++;
+		p = p->prev;
+	}
+}
 
 
 ////////////////////////////

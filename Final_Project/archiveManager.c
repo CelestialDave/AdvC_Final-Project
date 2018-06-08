@@ -38,6 +38,19 @@ void insertToEndOfHistoryList(Data * hData, char * command) {
 	hData->LongTerm_HistoryList.tail = newEntry;
 }
 
+void insertToStartOfHistoryList(Data * hData, char * command) {
+	int order = 0;
+	HistoryEntry * nextEntry = hData->LongTerm_HistoryList.head->next;
+	HistoryEntry * newEntry = createHistoryEntry(order, command, hData->LongTerm_HistoryList.head, nextEntry);
+	hData->LongTerm_HistoryList.head->next = newEntry;
+	if (nextEntry == NULL)
+		hData->LongTerm_HistoryList.tail = newEntry;
+	else
+		nextEntry->prev = newEntry;
+	
+}
+
+
 
 void executeFromHistory(Data * hData, int commandNumber) {
 	char * command = retrieveCommand(hData, commandNumber);
