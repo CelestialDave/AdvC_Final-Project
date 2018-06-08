@@ -1,5 +1,6 @@
 #include "declerations.h"
 
+// a function that gets a command, analizes it, and initiates it
 void commander(History_Data* data, char* command) {
 	if (command == "") return;
 
@@ -49,6 +50,7 @@ void commander(History_Data* data, char* command) {
 		return;
 	}
 }
+// a function that analizes parameters from a buy-an-apt-command
 int analizeCodeForBuy(char* command) {
 
 	int res = 0;
@@ -62,6 +64,7 @@ int analizeCodeForBuy(char* command) {
 	}
 	return res;
 }
+// a function that analizes parameters from a delete-an-apt-command
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy;
 	int res;
@@ -72,18 +75,16 @@ void analizeParametersForDelete(int* hours, char** command) {
 	*hours = res;
 	*command = copy;
 }
-
+// a function that recognizes the command that was entered by the user
 char recognizeCommand(char* command) {
 
 	char* res;
-
 	if (command[0] == '!')
 		return '!';
 	if (strcmp(command, "short_history") == 0)
 		return 's';
 	if (strcmp(command, "history") == 0)
 		return 'h';
-
 	res = strtok(command, "-");
 	if (strcmp(res, "get") == 0) {
 		res[strlen(res)] = '-';
@@ -104,7 +105,7 @@ char recognizeCommand(char* command) {
 	else
 		return '0';
 }
-
+// a function that gets a command of unknown length from the user
 char* getCommand() {
 	char* command;
 	char input;
@@ -140,7 +141,7 @@ char* getCommand() {
 		command = (char *)realloc(command, logSize * (sizeof(char)));
 	return command;
 }
-
+// a function that analizes parameters from a get-an-apt-command
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
 	char* copy;
 	char* subCommand;

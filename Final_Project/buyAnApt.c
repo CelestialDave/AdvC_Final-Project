@@ -1,4 +1,5 @@
 #include "declerations.h"
+// a function that removes a data from the list according to its code
 void buyAnApt(List* lst, int code) {
 	Apartment* current;
 	Apartment* toDel;
