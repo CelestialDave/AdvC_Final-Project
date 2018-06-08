@@ -154,9 +154,8 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
 	char* digits = " -1234567890";
-	//char * rawDate = (char *)calloc(8 + 1, sizeof(char));
 	int rawDate;
-
+	// breaking down the command to the search parameters
 	copyString(&copy, *command);
 	subCommand = strtok(copy, digits);
 	while (subCommand != NULL) {
