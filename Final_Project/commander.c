@@ -163,15 +163,14 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int
 		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
 			*minRooms = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "MaximumNumRooms") == 0) {
+		else if (strcmp(subCommand, "MaximumNumRooms") == 0) {
 			*maxRooms = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "MaximumPrice") == 0) {
+		else if (strcmp(subCommand, "MaximumPrice") == 0) {
 			*price = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "Date") == 0) {
+		else if (strcmp(subCommand, "Date") == 0) {
 			subCommand = strtok(NULL, abc);
-			//copyString(&rawDate, subCommand);
 			rawDate = atoi(subCommand);
 			*year = (rawDate % 10000) % 100;
 			rawDate /= 10000;
@@ -179,10 +178,10 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int
 			rawDate /= 100;
 			*day = rawDate % 100;
 		}
-		if (strcmp(subCommand, "sr") == 0) {
+		else if (strcmp(subCommand, "sr") == 0) {
 			*sort = 1;
 		}
-		if ((strcmp(subCommand, "s") == 0)) {
+		else if ((strcmp(subCommand, "s") == 0)) {
 			*sort = 2;
 		}
 		subCommand = strtok(NULL, digits);
