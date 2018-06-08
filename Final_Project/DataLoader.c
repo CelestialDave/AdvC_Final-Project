@@ -222,6 +222,5 @@ void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_
 			p = p->prev;
 		}
 	}
-
 	fclose(file);
 }
