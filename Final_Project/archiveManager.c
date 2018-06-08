@@ -148,7 +148,6 @@ void addToArchive(Data * hData, char * command) {
 		if (hData->shortTerm_HistoryArr[SHORT_TERM_SIZE - 1] != NULL) {
 			isShortTermFull = true;
 			i = SHORT_TERM_SIZE - 1;
-			copyString(&tempCommand, hData->shortTerm_HistoryArr[i]);
 		}
 		else {
 			isShortTermFull = false;
@@ -160,13 +159,12 @@ void addToArchive(Data * hData, char * command) {
 		iLastSTHEntry = (int)i;
 
 		if (isShortTermFull) {
-			free(hData->shortTerm_HistoryArr[iLastSTHEntry]); // Free the memory for the command string in last ShortTerm History array cell
-			hData->shortTerm_HistoryArr[iLastSTHEntry] = NULL;
+			tempCommand = hData->shortTerm_HistoryArr[iLastSTHEntry];
 		}
 		for (i = iLastSTHEntry; i > 0; i--) {
 			hData->shortTerm_HistoryArr[i] = hData->shortTerm_HistoryArr[i - 1];
 		}
-		// When i = 0:
+		// i = 0: Adding current command to 1st position in Short Term History Array
 		hData->shortTerm_HistoryArr[i] = command;
 		
 		// Increment total history entries counter:

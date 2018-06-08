@@ -275,16 +275,19 @@ void allocStr(char ** str, int * phS, int logS, int isFinished) {
 	if (isFinished == 0) {
 		if (*phS == 0) {
 			*phS = 1;
-			*str = (char *)calloc(*phS, sizeof(char));
+			*str = (char *)calloc(*phS + 1, sizeof(char));
+			(*str)[*phS] = '\0';
 		}
 		else if (logS == *phS) {
 			*phS *= 2;
-			*str = (char *)realloc(*str, *phS * sizeof(char));
+			*str = (char *)realloc(*str, (*phS + 1)* sizeof(char));
+			(*str)[*phS] = '\0';
 		}
 	}
 	else if (isFinished == 1) {
 		if (logS < *phS) {
 			*str = (char *)realloc(*str, (logS + 1) * sizeof(char));
+			(*str)[logS] = '\0';
 			*phS = logS;
 		}
 	}
