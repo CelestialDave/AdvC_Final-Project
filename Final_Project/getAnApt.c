@@ -1,7 +1,6 @@
 #include "declerations.h"
 
-void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List apartments) {
-
+void getAnApt(int price, int minRooms, int maxRooms, short int day, short int month, short int year, int sort, char* command, List apartments) {
 	Apartment** res;
 	Apartment* current;
 	int logSize;
@@ -11,7 +10,7 @@ void getAnApt(int price,int minRooms,int maxRooms,int sort, char* command, List 
 	phSize = 2;
 	res = malloc(phSize * sizeof(Apartment*));
 	while (current != NULL) {
-		if (conditionsAreMet(price, minRooms, maxRooms, current)) {
+		if (conditionsAreMet(price, minRooms, maxRooms, day, month, year, current)) {
 			if (logSize == phSize) {
 				phSize *= 2;
 				res = (Apartment **)realloc(res, phSize * sizeof(Apartment*));
@@ -50,7 +49,6 @@ void mergeSortApts(Apartment** arr, int size) {
 }
 
 void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apartment** res) {
-
 	int read1;
 	int read2;
 	int write;
@@ -72,17 +70,19 @@ void sortedMerge(Apartment** arr1, int size1, Apartment** arr2, int size2, Apart
 		res[write++] = arr2[read2++];
 	}
 }
+
 void printAptsArrHighToLow(Apartment** arr, int size) {
 	for (int i = size - 1; i >= 0; i--) {
 		printf("Apt details:\n");
 		printf("Code: %d\n", arr[i]->code);
-		printf("Adress: %s\n", arr[i]->adress);
+		printf("Address: %s\n", arr[i]->adress);
 		printf("Number of rooms: %d\n", arr[i]->rooms);
 		printf("Price: %d\n", arr[i]->price);
-		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, arr[i]->date.year);
-		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, arr[i]->dbDate.year);
+		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, (2000 + arr[i]->date.year));
+		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
+
 void printAptsArrLowToHigh(Apartment** arr, int size) {
 	
 	for (int i = 0; i < size; i++) {
@@ -91,40 +91,25 @@ void printAptsArrLowToHigh(Apartment** arr, int size) {
 		printf("Adress: %s\n", arr[i]->adress);
 		printf("Number of rooms: %d\n", arr[i]->rooms);
 		printf("Price: %d\n", arr[i]->price);
-		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, arr[i]->date.year);
-		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, arr[i]->dbDate.year);
+		printf("Entry date: %d.%d.%d\n", arr[i]->date.day, arr[i]->date.month, (2000 + arr[i]->date.year));
+		printf("Database date: %d.%d.%d\n", arr[i]->dbDate.day, arr[i]->dbDate.month, (2000 + arr[i]->dbDate.year));
 	}
 }
-bool conditionsAreMet(int price, int minRooms, int maxRooms, Apartment* apt) {
 
-	if (price != -1) {
-		if (apt->price <= price) {
-			if (minRooms == -1 && maxRooms == -1) {
-				return true;
-			}
-			else if (maxRooms == -1) {
-				return apt->rooms >= minRooms;
-			}
-			else if (minRooms == -1) {
-				return apt->rooms <= maxRooms;
-			}
-			else {
-				return apt->rooms <= maxRooms && apt->rooms >= minRooms;
-			}
-		}
+bool conditionsAreMet(int maxPrice, int minRooms, int maxRooms, short int day, short int month, short int year, Apartment* apt) {
+	bool res = true;
+	if (res && maxPrice != -1)
+		res = (apt->price <= maxPrice);
+	if (res && minRooms != -1)
+		res = (apt->rooms >= minRooms);
+	if (res && maxRooms != -1)
+		res = (apt->rooms <= maxRooms);
+	if (res && (day != -1) && (month != -1) && (year != -1)) {
+		if (apt->date.year == year)
+			res = ((apt->date.month < month) || (apt->date.month == month) && (apt->date.day <= day));
+		else
+			res = (apt->date.year < year);
 	}
-	else if (minRooms != -1) {
-		if (apt->rooms >= minRooms) {
-			if (price == -1 && maxRooms == -1) {
-				return true;
-			}
-			else if (price == -1) {
-				return apt->rooms <= maxRooms;
-			}
-		}
-	}
-	else if (maxRooms != -1) {
-		return apt->rooms <= maxRooms;
-	}
-	return false;
+
+	return res;
 }

@@ -20,7 +20,7 @@ void deleteAnApt(List* list, int hours) {
 	}
 }
 
-void freeData(History_Data * data) {
+void freeData(Data * data) {
 	freeApartments(&data->apartments);
 	freeHistoryData(data);
 }
@@ -41,7 +41,7 @@ void freeApartments(List * apartments) {
 	}
 }
 
-void freeHistoryData(History_Data * hData) {
+void freeHistoryData(Data * hData) {
 	freeShortTermHisArr(hData->shortTerm_HistoryArr);
 	freeHistoryList(&hData->LongTerm_HistoryList);
 	return;

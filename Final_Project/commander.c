@@ -1,7 +1,7 @@
 #include "declerations.h"
 
 // a function that gets a command, analizes it, and initiates it
-void commander(History_Data* data, char* command) {
+void commander(Data* data, char* command) {
 	if (command == "") return;
 
 	List apartments = data->apartments;
@@ -9,14 +9,17 @@ void commander(History_Data* data, char* command) {
 	int price = -1; // parameter for get-an-apt
 	int minRooms = -1; //parameter for get-an-apt
 	int maxRooms = -1;//parameter for get-an-apt
+	short int day = -1;
+	short int month = -1;
+	short int year = -1;
 	int sort = 0; // parameter for get-an-apt 1 for sr 2 for s 0 for nothing
 	char recognize;
 	int code;
 	recognize = recognizeCommand(command);
 	switch (recognize) {
 	case 'g':
-		analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
-		getAnApt(price,minRooms,maxRooms,sort,command, apartments);
+		analizeParametersForGet(&price, &minRooms, &maxRooms, &day, &month, &year, &command, &sort);
+		getAnApt(price, minRooms, maxRooms, day, month, year, sort, command, apartments);
 		addToArchive(data, command);
 		break;
 	case 'b':
@@ -48,6 +51,7 @@ void commander(History_Data* data, char* command) {
 		return;
 	}
 }
+
 // a function that analizes parameters from a buy-an-apt-command
 int analizeCodeForBuy(char* command) {
 
@@ -62,6 +66,7 @@ int analizeCodeForBuy(char* command) {
 	}
 	return res;
 }
+
 // a function that analizes parameters from a delete-an-apt-command
 void analizeParametersForDelete(int* hours, char** command) {
 	char* copy = NULL;
@@ -72,16 +77,19 @@ void analizeParametersForDelete(int* hours, char** command) {
 	*hours = res;
 	free(copy);
 }
+
 // a function that recognizes the command that was entered by the user
 char recognizeCommand(char* command) {
 
 	char* res;
+
 	if (command[0] == '!')
 		return '!';
 	if (strcmp(command, "short_history") == 0)
 		return 's';
 	if (strcmp(command, "history") == 0)
 		return 'h';
+
 	res = strtok(command, "-");
 	if (strcmp(res, "get") == 0) {
 		res[strlen(res)] = '-';
@@ -102,6 +110,7 @@ char recognizeCommand(char* command) {
 	else
 		return '0';
 }
+
 // a function that gets a command of unknown length from the user
 char* getCommand() {
 	char* command;
@@ -138,28 +147,41 @@ char* getCommand() {
 		command = (char *)realloc(command, logSize * (sizeof(char)));
 	return command;
 }
+
 // a function that analizes parameters from a get-an-apt-command
-void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
+void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, short int* day, short int* month, short int* year, char** command, int* sort) {
 	char* copy = NULL;
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
 	char* digits = " -1234567890";
+	//char * rawDate = (char *)calloc(8 + 1, sizeof(char));
+	int rawDate;
+
 	copyString(&copy, *command);
 	subCommand = strtok(copy, digits);
 	while (subCommand != NULL) {
 		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
 			*minRooms = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "MaximumNumRooms") == 0) {
+		else if (strcmp(subCommand, "MaximumNumRooms") == 0) {
 			*maxRooms = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "MaximumPrice") == 0) {
+		else if (strcmp(subCommand, "MaximumPrice") == 0) {
 			*price = atoi(subCommand = strtok(NULL, abc));
 		}
-		if (strcmp(subCommand, "sr") == 0) {
+		else if (strcmp(subCommand, "Date") == 0) {
+			subCommand = strtok(NULL, abc);
+			rawDate = atoi(subCommand);
+			*year = (rawDate % 10000) % 100;
+			rawDate /= 10000;
+			*month = rawDate % 100;
+			rawDate /= 100;
+			*day = rawDate % 100;
+		}
+		else if (strcmp(subCommand, "sr") == 0) {
 			*sort = 1;
 		}
-		if ((strcmp(subCommand, "s") == 0)) {
+		else if ((strcmp(subCommand, "s") == 0)) {
 			*sort = 2;
 		}
 		subCommand = strtok(NULL, digits);
@@ -167,11 +189,10 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 	free(copy);
 }
 
-/////////////////////////////////
+// -------------------------------
 // History related functions:
-////////////////////////////////
 
-void archiveQuery(History_Data * hData, char ** command) {
+void archiveQuery(Data * hData, char ** command) {
 	int commandNumber = -1;
 	char *str1, *str2;
 	str1 = str2 = NULL;
@@ -242,6 +263,29 @@ int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, ch
 				return RUN_COMMAND_NUM;
 			else
 				return -1;
+		}
+	}
+}
+
+
+// -----------------------
+//	General Functions:
+
+void allocStr(char ** str, int * phS, int logS, int isFinished) {
+	if (isFinished == 0) {
+		if (*phS == 0) {
+			*phS = 1;
+			*str = (char *)calloc(*phS, sizeof(char));
+		}
+		else if (logS == *phS) {
+			*phS *= 2;
+			*str = (char *)realloc(*str, *phS * sizeof(char));
+		}
+	}
+	else if (isFinished == 1) {
+		if (logS < *phS) {
+			*str = (char *)realloc(*str, (logS + 1) * sizeof(char));
+			*phS = logS;
 		}
 	}
 }

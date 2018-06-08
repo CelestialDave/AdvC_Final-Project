@@ -18,7 +18,7 @@ bool isEmptyHistoryList(HistoryList * hList) {
 	return (hList->head->next == NULL);
 }
 
-void historyDataPreLoaderPrep(History_Data * hData) {
+void preDataLoaderPrep(Data * hData) {
 	hData->apartments = makeEmptyList();
 	initShortTermArr(hData->shortTerm_HistoryArr);
 	createEmptyHistoryList(&hData->LongTerm_HistoryList);
@@ -31,7 +31,7 @@ void initShortTermArr(char * stArr[]) {
 		stArr[i] = NULL;
 }
 
-void insertToEndOfHistoryList(History_Data * hData, char * command) {
+void insertToEndOfHistoryList(Data * hData, char * command) {
 	int order = hData->total - SHORT_TERM_SIZE;
 	HistoryEntry * newEntry = createHistoryEntry(order, command, hData->LongTerm_HistoryList.tail, NULL);
 	hData->LongTerm_HistoryList.tail->next = newEntry;
@@ -39,18 +39,18 @@ void insertToEndOfHistoryList(History_Data * hData, char * command) {
 }
 
 
-void executeFromHistory(History_Data * hData, int commandNumber) {
+void executeFromHistory(Data * hData, int commandNumber) {
 	char * command = retrieveCommand(hData, commandNumber);
 	commander(hData, command);
 }
 
-void substituteAndRun(History_Data * hData, int commandNumber, char * str1, char * str2) {
+void substituteAndRun(Data * hData, int commandNumber, char * str1, char * str2) {
 	char * command = retrieveCommand(hData, commandNumber);
 	char * newCommand = substituteCommandParams(hData, command, str1, str2);
 	commander(hData, newCommand);
 }
 
-char * substituteCommandParams(History_Data * hData, char * command, char * str1, char * str2) {
+char * substituteCommandParams(Data * hData, char * command, char * str1, char * str2) {
 
 	char * newCommand = NULL;
 	int newCmdSize;
@@ -110,7 +110,7 @@ char * substituteCommandParams(History_Data * hData, char * command, char * str1
 	return newCommand;
 }
 
-char * retrieveCommand(History_Data * hData, int commandNumber) {
+char * retrieveCommand(Data * hData, int commandNumber) {
 	char * commandCopy = NULL;
 
 	if (!isEmptyHistoryList(&hData->LongTerm_HistoryList)) {
@@ -138,7 +138,7 @@ char * retrieveCommand(History_Data * hData, int commandNumber) {
 	return commandCopy;
 }
 
-void addToArchive(History_Data * hData, char * command) {
+void addToArchive(Data * hData, char * command) {
 	if (command != NULL) {
 		int i;
 		int iLastSTHEntry;
@@ -180,7 +180,7 @@ void addToArchive(History_Data * hData, char * command) {
 	}
 }
 
-void archivePrinter(History_Data * hData, int task) {
+void archivePrinter(Data * hData, int task) {
 	int i;
 	HistoryEntry *p;
 	if ((task == SHORT_HISTORY_PRINT) || (task == FULL_HISTORY_PRINT)) {
