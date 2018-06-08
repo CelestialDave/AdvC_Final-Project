@@ -83,6 +83,7 @@ void readApartments(List * apartments) {
 	}
 }
 
+// fileSize(); caculates a file size
 long int fileSize(char * filename) {
 	long int res = -1;
 	FILE * file = fopen(filename, "rb");
@@ -95,7 +96,7 @@ long int fileSize(char * filename) {
 	return res;
 }
 
-
+// readHistory(); read command history from file and load to gragram data
 void readHistory(Data * data) {
 	char * command;
 	int logS = 0;
@@ -128,6 +129,7 @@ void readHistory(Data * data) {
 	}
 }
 
+// applyHListOrder(); applies the order field per History Entry in History List post loading from files
 void applyHListOrder(HistoryList hList, int total) {
 	int i = 0;
 	HistoryEntry * p = hList.tail;
@@ -142,11 +144,13 @@ void applyHListOrder(HistoryList hList, int total) {
 // Write-Data related funcs:
 ////////////////////////////
 
+// writeDataToFiles(); writes program data to files
 void writeDataToFiles(Data data) {
 	writeApartments(data.apartments);
 	writeHistory(data.total, data.shortTerm_HistoryArr, data.LongTerm_HistoryList);
 }
 
+// writeApartments(); writes Apartment List data to bin file
 void writeApartments(List apartments) {
 	FILE* binary = fopen(FILE_APARTMENTS, "wb");
 	short int AptCode;
@@ -165,6 +169,7 @@ void writeApartments(List apartments) {
 	fclose(binary);
 }
 
+// writeCompressedData(); writes rooms and date related data of apartment received compressed as bits to opened bin file
 void writeCompressedData(Apartment* apt, FILE* file) {
 	byte first = 0;
 	byte second = 0;
@@ -189,6 +194,7 @@ void writeCompressedData(Apartment* apt, FILE* file) {
 	fwrite(&cDate_second, sizeof(byte), 1, file);
 }
 
+// writeHistory(); writes program command History to text file
 void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_HistoryList) {
 	FILE * file;
 	int i;
