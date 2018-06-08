@@ -12,11 +12,11 @@
 
 // General Funcs:
 void copyString(char ** dest, char * source);
-void preDataLoaderPrep(Data * hData);
+void preDataLoaderPrep(Data * data);
 void allocStr(char ** str, int * phS, int logS, int isFinished);
 
 // Commander:
-void commander(Data* hData, char* command);
+void commander(Data* data, char* command);
 char recognizeCommand(char* command);
 char* getCommand();
 
@@ -43,17 +43,17 @@ void analizeParametersForDelete(int* hours, char** command);
 bool isEmptyHistoryList(HistoryList * hList);
 HistoryEntry * createHistoryEntry(int order, char * command, HistoryEntry * prev, HistoryEntry * next);
 void createEmptyHistoryList(HistoryList * hList);
-void insertToEndOfHistoryList(Data * hData, char * command);
-void insertToStartOfHistoryList(Data * hData, char * command);
+void insertToEndOfHistoryList(Data * data, char * command);
+void insertToStartOfHistoryList(Data * data, char * command);
 void initShortTermArr(char * stArr[]);
-void addToArchive(Data * hData, char * command);
-void archiveQuery(Data * hData, char ** command);
+void addToArchive(Data * data, char * command);
+void archiveQuery(Data * data, char ** command);
 int clasifyQueryTaskParams(char * command, int * commandNumber, char ** str1, char ** str2);
-char * retrieveCommand(Data * hData, int commandNumber);
-void executeFromHistory(Data * hData, int commandNumber);
-void substituteAndRun(Data * hData, int commandNumber, char * str1, char * str2);
-char * substituteCommandParams(Data * hData, char * command, char * str1, char * str2);
-void archivePrinter(Data * hData, int task);
+char * retrieveCommand(Data * data, int commandNumber);
+void executeFromHistory(Data * data, int commandNumber);
+void substituteAndRun(Data * data, int commandNumber, char * str1, char * str2);
+char * substituteCommandParams(Data * data, char * command, char * str1, char * str2);
+void archivePrinter(Data * data, int task);
 
 // Read Data:
 void readDataFromFiles(Data * data);
@@ -72,7 +72,7 @@ void writeHistory(int total, char ** shortTerm_HistoryArr, HistoryList LongTerm_
 void freeData(Data * data);
 void freeApt(Apartment ** apt);
 void freeApartments(List * apartments);
-void freeHistoryData(Data * hData);
+void freeHistoryData(Data * data);
 void freeShortTermHisArr(char ** shortTermArr);
 void freeHistoryList(HistoryList * hList);
 

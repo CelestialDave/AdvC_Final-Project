@@ -42,9 +42,9 @@ void freeApartments(List * apartments) {
 	}
 }
 // a function that frees the history data of commands
-void freeHistoryData(Data * hData) {
-	freeShortTermHisArr(hData->shortTerm_HistoryArr);
-	freeHistoryList(&hData->LongTerm_HistoryList);
+void freeHistoryData(Data * data) {
+	freeShortTermHisArr(data->shortTerm_HistoryArr);
+	freeHistoryList(&data->LongTerm_HistoryList);
 	return;
 }
 // a function that frees the short term history array strings
