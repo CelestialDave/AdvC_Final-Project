@@ -37,11 +37,9 @@ void commander(History_Data* data, char* command) {
 		break;
 	case 's':
 		archivePrinter(data, SHORT_HISTORY_PRINT);
-		//addToArchive(data, command);
 		break;
 	case 'h':
 		archivePrinter(data, FULL_HISTORY_PRINT);
-		//addToArchive(data, command);
 		break;
 	case '!':
 		archiveQuery(data, &command);
@@ -66,14 +64,13 @@ int analizeCodeForBuy(char* command) {
 }
 // a function that analizes parameters from a delete-an-apt-command
 void analizeParametersForDelete(int* hours, char** command) {
-	char* copy;
+	char* copy = NULL;
 	int res;
 	char* delimeters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz<>-";
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	res = 24 * atoi(strtok(*command, delimeters));
+	copyString(&copy, *command);
+	res = 24 * atoi(strtok(copy, delimeters));
 	*hours = res;
-	*command = copy;
+	free(copy);
 }
 // a function that recognizes the command that was entered by the user
 char recognizeCommand(char* command) {
@@ -143,13 +140,12 @@ char* getCommand() {
 }
 // a function that analizes parameters from a get-an-apt-command
 void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** command, int* sort) {
-	char* copy;
+	char* copy = NULL;
 	char* subCommand;
 	char* abc = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
-	char* digits = "-1234567890 ";
-	copy = malloc(strlen(*command) * sizeof(char));
-	strcpy(copy, *command);
-	subCommand = strtok(*command, digits);
+	char* digits = " -1234567890";
+	copyString(&copy, *command);
+	subCommand = strtok(copy, digits);
 	while (subCommand != NULL) {
 		if (strcmp(subCommand, "MinimumNumRooms") == 0) {
 			*minRooms = atoi(subCommand = strtok(NULL, abc));
@@ -168,7 +164,7 @@ void analizeParametersForGet(int* price, int* minRooms, int* maxRooms, char** co
 		}
 		subCommand = strtok(NULL, digits);
 	}
-	*command = copy;
+	free(copy);
 }
 
 /////////////////////////////////

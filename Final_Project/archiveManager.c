@@ -144,6 +144,7 @@ void addToArchive(History_Data * hData, char * command) {
 		int iLastSTHEntry;
 		bool isShortTermFull = false;
 		char * tempCommand = NULL;
+
 		if (hData->shortTerm_HistoryArr[SHORT_TERM_SIZE - 1] != NULL) {
 			isShortTermFull = true;
 			i = SHORT_TERM_SIZE - 1;
