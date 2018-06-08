@@ -10,6 +10,7 @@ void getAnApt(int price, int minRooms, int maxRooms, short int day, short int mo
 	logSize = 0;
 	phSize = 2;
 	res = malloc(phSize * sizeof(Apartment*));
+	// checking all the apartments to see which apartment meet the search conditions
 	while (current != NULL) {
 		if (conditionsAreMet(price, minRooms, maxRooms, day, month, year, current)) {
 			if (logSize == phSize) {

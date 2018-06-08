@@ -9,6 +9,7 @@ void deleteAnApt(List* list, int hours) {
 	time(&t);
 	currentHoursTime = t / 3600;
 	current = list->head;
+	// checking all the apratments to see which apartmet to delete
 	while (current->next != NULL) {
 		if (currentHoursTime - current->next->dbDate.hours <= hours) {
 			toDel = current->next;

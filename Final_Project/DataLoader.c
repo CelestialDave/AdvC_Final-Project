@@ -1,4 +1,3 @@
-
 #include "declerations.h"
 
 ////////////////////////////
