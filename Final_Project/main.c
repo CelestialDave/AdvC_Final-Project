@@ -1,84 +1,37 @@
-#define _CRT_SECURE_NO_WARNINGS
+
+//	Advanced Programming with C - Final Projact
+//	Authors:	Noam Waissman & David Chen
+
 #include "declerations.h"
+
 int main() {
-	//get-an-apt -MinimumNumRooms 3 -MaximumNumRooms 10
-	char* command = NULL;
-	List apartments;
-	char recognize;
-	int price = -1;
-	int minRooms = -1;
-	int maxRooms = -1;
-	int sort = 0; // 1 for sr 2 for s 0 for nothing
-	int getSize; // the size of getList
-	Apartment** get; // list of get apartments
+
+	// Declaring Variabls:
+	char* command;
+	Data data;
+
+	// Program init prep:
+	preDataLoaderPrep(&data);
+
+	// Data-Loader; Load Data from files:
+	readDataFromFiles(&data);
+
+	// Opening Message:
+	printf("Please enter one of the following commands:\nadd-an-apt, get-an-apt, buy-an-apt or delete-an-apt\nFor reconstruction commands, please enter:\n!!, !num, history, short_history or !num^str1^str2\nTo exit, enter exit.\n");
+	
+	// Start program by prompting for user command:
 	command = getCommand();
-	apartments = makeEmptyList();
 	while (strcmp(command, "exit") != 0) {
-		recognize = recognizeCommand(command);
-		switch (recognize) {
-		case 'g':
-			analizeParametersForGet(&price, &minRooms, &maxRooms, &command, &sort);
-			get = getAnApt(price, minRooms, maxRooms,sort, apartments, &getSize);
-			price = -1;
-			minRooms = -1;
-			maxRooms = -1;
-			sort = 0;
-			printAptsArr(get,getSize);
-			break;
-		case 'b':
-			break;
-		case 'd':
-			break;
-		case 'a':
-			addAnApt(&command,apartments);
-			break;
-		}
+		commander(&data, command);
 		command = getCommand();
 	}
-}
-char recognizeCommand(char* command) {
 
-	char* res;
-	res = strtok(command, "-");
-	if (strcmp(res, "get") == 0) {
-		res[strlen(res)] = '-';
-		return 'g';
-	}
-	if (strcmp(res, "buy") == 0) {
-		res[strlen(res)] = '-';
-		return 'b';
-	}
-	if (strcmp(res, "delete") == 0) {
-		res[strlen(res)] = '-';
-		return 'd';
-	}
-	if (strcmp(res, "add") == 0) {
-		res[strlen(res)] = '-';
-		return 'a';
-	}
-}
-char* getCommand() {
-	char* command;
-	char input;
-	int phSize;
-	int logSize;
-	command = NULL;
-	logSize = 0;
-	phSize = 5;
-	scanf("%c", &input);
-	if (input != '\n') {
-		command = malloc(phSize * sizeof(char));
-		command[logSize++] = input;
-		scanf("%c", &input);
-	}
-	while (input != '\n') {
-		if (logSize == phSize) {
-			phSize *= 2;
-			realloc(command, phSize);
-		}
-		command[logSize++] = input;
-		scanf("%c", &input);
-	}
-	command[logSize] = '\0';
-	return command;
+	// Data-Loader; Unload Data to files:
+	writeDataToFiles(data);
+	
+	// Free Data:
+	freeData(&data);
+
+	// User Farewell Message:
+	printf("Good Bye!\n");
 }

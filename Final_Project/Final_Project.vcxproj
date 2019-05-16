@@ -147,12 +147,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="addAnApt.c" />
+    <ClCompile Include="archiveManager.c" />
     <ClCompile Include="buyAnApt.c" />
+    <ClCompile Include="commander.c" />
+    <ClCompile Include="DataLoader.c" />
+    <ClCompile Include="freeData.c" />
     <ClCompile Include="getAnApt.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="apartment.h" />
+    <ClInclude Include="dataLoader_header.h" />
+    <ClInclude Include="structsAndDefinitions.h" />
     <ClInclude Include="declerations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
